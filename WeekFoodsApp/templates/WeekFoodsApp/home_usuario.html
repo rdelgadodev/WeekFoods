@@ -1,0 +1,36 @@
+{% extends 'WeekFoodsApp/base_usuario.html' %}
+
+{% load static %}
+
+
+<!--Parte central-->
+{% block content %}
+
+    <div class='container-fluid'>
+        <h1 class="text-center my-4 sugerencias">Sugerencias</h1>
+        <div class="row justify-content-center">
+
+
+            <!--Tarjetas-->
+            {% for receta in list_recipe %}
+
+            <div class="col-sm-3">
+                <div class="card bg-dark text-white" style="height: 600px;">
+                    <h3 class="card-header fs-3">¡A cocinar!</h3>
+                    <div class="card-body">
+                        <h5 class="card-title fs-3">{{receta.name}}</h5>
+
+                    </div>
+                    <iframe width="315" height="300" src="{{receta.elaboration}}"></iframe>
+                    <div class="card-body">
+                        <p class="card-text fs-3">Momento del dia: {{receta.when_you_eat}}</p>
+                        <p class="card-text fs-3">Calorias: {{receta.calories}}</p>
+                    </div>
+                </div>
+            </div>
+            {%endfor%}
+        
+        </div>
+    </div>
+
+    {% endblock %}

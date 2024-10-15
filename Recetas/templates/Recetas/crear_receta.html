@@ -1,0 +1,95 @@
+{% extends 'WeekFoodsApp/base_usuario.html' %}
+
+{% load static %}
+
+{% block content %}
+<h1 class="mt-4 text-center text-white">Creando receta...</h1>
+
+<div class="container bg-dark text-white formularios fs-4">
+
+
+
+    <form action="{% url 'Crear Receta' %}" method="POST">
+
+        {% csrf_token %}
+
+        <!--Mensaje de error en caso que no haya seleccionado ningún ingrediente-->
+        {%if messages %}
+
+        {% for msg in messages %}
+        <div class="alert alert-{{msg.tags}} text-center mt-3">
+            <h2 class="h2 ml-2">¡{{msg}}!</h2>
+        </div>
+        {% endfor %}
+        {% endif %}
+
+        <!--Respuesta que aparecerá en pantalla cuando el usuario haya creado la receta-->
+        {% if 'valido' in request.GET %}
+
+        <h1 class="text-center fy-5">¡Receta creada satisfactoriamente. Gracias por su colaboración!</h1>
+
+        {% endif %}
+
+
+        <div class="row">
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label class="col-form-label mt-3" for="inputDefault">Nombre receta:</label>
+                    {{form_recipe.name}}
+                </div>
+            </div>
+
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label class="col-form-label mt-3" for="inputDefault">Elaboración:</label>
+                    {{form_recipe.elaboration}}
+                </div>
+            </div>
+
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label class="col-form-label mt-3" for="inputDefault">Calorias</label>
+                    {{form_recipe.calories}}
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+                <div class="form-group text-center">
+                    <label class="col-form-label m-3" for="inputDefault">Momento del día para comer:</label>
+                    {{form_recipe.when_you_eat}}
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col sm-6">
+                <div class="form-group">
+                    <p class="fs-4">Ingredientes:</p>
+                    <div class='col_ingredientes'>
+                        {{form_recipe.ingredients}}
+                    </div>
+                </div>
+            </div>
+            <div class="col sm-6 text-center btn_agregar">
+                <a href="{% url 'Agregar Ingrediente' %}" class="btn btn-dark text-center fs-4">Añadir
+                    ingrediente</a>
+            </div>
+        </div>
+
+
+
+
+
+        <div class="container-fluid mt-4 pb-4">
+            <input type="submit" class="btn btn-primary btn-lg" value="Guardar">
+            <a href="{% url 'Recetas' %}" class="btn btn-primary btn-lg">Cancelar</a>
+        </div>
+
+    </form>
+
+</div>
+
+
+{%endblock%}

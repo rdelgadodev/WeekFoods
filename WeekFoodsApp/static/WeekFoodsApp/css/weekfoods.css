@@ -1,0 +1,245 @@
+/* Estilo para página principal */
+
+body {
+    font-family: "Dancing Script", cursive;
+    background-image: url('../img/Fondo_central_02.jpg');
+    background-size: cover;
+    backdrop-filter: blur(2px);
+}
+
+.cabecera {
+    background-color: transparent;
+    color: white;
+}
+
+.acceder {
+    margin-bottom: 10px;
+    font-weight: bold;
+    width: 300px;
+}
+
+.login {
+    width: 175px;
+}
+
+.tarjeta {
+    height: 300px;
+    border-radius: 10px;
+    cursor: default;
+}
+
+.imagen_tarjeta {
+
+    height: 240px;
+    object-fit: cover;
+    border-radius: 10px;
+    transition: all 400ms ease;
+}
+
+.texto_tarjeta {
+    position: absolute;
+    top: 125px;
+    left: 10px;
+    text-align: center;
+    opacity: 0;
+    transition: all 400ms ease;
+    font-weight: bold;
+}
+
+.tarjeta:hover .imagen_tarjeta {
+    opacity: 0.2;
+}
+
+.tarjeta:hover .texto_tarjeta {
+    opacity: 1;
+}
+
+.cuerpo_home {
+    margin-top: 100px;
+}
+
+/* ----------------------------------------------------------------------------------------------------- */
+/* ----------------------------------------------------------------------------------------------------- */
+
+/* Estilo para quienes_somos.html y ver_recetas.html*/
+
+.contenedor {
+    margin-top: 50px;
+    opacity: 0.9;
+    border-radius: 10px;
+}
+
+.parrafos {
+    font-weight: bold;
+    font-size: 25px;
+    line-height: 2.0;
+    text-align: justify;
+    
+}
+
+.imagen_parrafo_impar {
+    width: 300px;
+    height: 200px;
+    border: 2px solid white;
+    border-radius: 5px;
+    float: left;
+    margin-right: 30px;
+    margin-top: 25px;
+}
+
+.imagen_parrafo_par {
+    width: 300px;
+    border-radius: 5px;
+    float: right;
+    margin-left: 30px;
+    margin-top: 25px;
+    border: 2px solid white;
+}
+
+
+
+/* ----------------------------------------------------------------------------------------------------- */
+/* ----------------------------------------------------------------------------------------------------- */
+
+/* Estilo para nuevo_user.html y crear_receta.html*/
+
+.formularios {
+    width: 800px;
+    opacity: 0.7;
+    border-radius: 10px;
+    margin-top: 40px;
+    
+}
+
+.btn_agregar {
+    /* margin-top: 80px;
+    margin-right: 75px;*/
+    display: grid;
+    place-items: center;
+}
+
+.col_ingredientes {
+    height: 200px;
+    overflow: auto;
+    
+}   
+
+.col_ingredientes label {
+    font-size: 1.3rem;
+}
+
+/* ----------------------------------------------------------------------------------------------------- */
+/* ----------------------------------------------------------------------------------------------------- */
+
+/* Estilo para contacto.html */
+
+.datos_contacto {
+    width: 800px;
+    height: 700px;
+    margin-top: 50px;
+    opacity: 0.7;
+    border-radius: 10px;
+}
+
+
+/* ----------------------------------------------------------------------------------------------------- */
+/* ----------------------------------------------------------------------------------------------------- */
+
+/* Estilo para home_usuario.html */
+
+.sugerencias {
+
+    color: white;
+    font-size: 60px;
+}
+
+.card {
+
+    width: 100%;
+    border-radius: 10px;
+    overflow: hidden;
+    cursor: default;
+    transition: all 400ms ease;
+}
+
+.card:hover {
+    transform: translateY(-5%);
+}
+
+.bienvenido {
+    animation: arriba-abajo 1s ease-in;
+}
+
+@keyframes arriba-abajo {
+
+    0% {
+        transform: translateY(-200px);
+    }
+
+    100% {
+        transform: translateY(0px);
+    }
+}
+
+.salir {
+    width: 300px;
+}
+
+/* ----------------------------------------------------------------------------------------------------- */
+/* ----------------------------------------------------------------------------------------------------- */
+
+
+/* Estilo para menu_semanal.html */
+
+.tabla_calendario {
+    opacity: 0.7;
+}
+
+.mensaje_calorias {
+   
+    margin: auto 300px;
+}
+
+/* ----------------------------------------------------------------------------------------------------- */
+/* ----------------------------------------------------------------------------------------------------- */
+
+/* Estilo para lista_de_la_compra.html */
+
+.tabla_cesta {
+    height: 300px !important;
+    overflow: auto;
+    
+}
+
+.tabla_compra {
+    opacity: 0.8;
+}
+
+.total_price {
+    background-color: black;
+    border: 20px;
+    border-top-color: red;
+    opacity: 0.8;
+}
+
+.apreciacion {
+    font-size: 20px;
+    text-align: left;
+}
+
+/* ----------------------------------------------------------------------------------------------------- */
+/* ----------------------------------------------------------------------------------------------------- */
+
+/* Estilo para ver_receta.html */
+
+.titulo_receta {
+    font-size: 50px;
+}
+
+.datos_receta {
+
+    border: 2px solid;
+    border-radius: 5px;
+    border-color: white;
+    
+}

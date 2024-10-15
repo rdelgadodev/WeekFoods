@@ -1,0 +1,89 @@
+{% extends 'WeekFoodsApp/base_usuario.html' %}
+
+{% load static %}
+
+{% block content %}
+
+<form action="{% url 'Recetas' %}" method="POST">
+    {% csrf_token %}
+
+    <div class="table-responsive-sm mt-3 text-center fs-1">Listado de recetas
+
+    <!--Respuesta que aparecerá en pantalla cuando el usuario haya compartido la receta-->
+    {% if 'valido' in request.GET %}
+    <div class="container mt-3 bg-dark fs-2 text-center">
+    <h1>!Receta compartida! Gracias por tu aportación a nuestra comunidad.</h1>
+    </div>
+    {% endif %}
+
+
+        <table class="table table-dark fs-4 mt-3 tabla_compra">
+            <thead>
+                <tr>
+
+                    <th colspan="1" style="width: 45%;">Receta</th>
+                    <th colspan="1">Calorias</th>
+                    <th colspan="1"></th>
+                    
+                    
+
+                </tr>
+            </thead>
+            <tbody class='fs-5'>
+                {%for recipe in recipes%}
+                <tr>
+                    <td>{{recipe.name}}</td>
+                    <td>{{recipe.calories}}</td>
+                    <td class="text-right" style="width: auto;"><a href="{% url 'Ver Receta' recipe.id %}" class="btn btn-dark text-center fs-5 ml-5"><i
+                                class="fa-solid fa-magnifying-glass"></i>Ver receta </a>
+                        <a href="{% url 'Eliminar' recipe.id %}" class="btn btn-dark text-center fs-5 mx-4"><i
+                                class="fa-solid fa-trash-can"></i>
+                            Eliminar </a>
+                        <a href="{% url 'Compartir Receta' recipe.id %}" class="btn btn-dark text-center fs-5 mr-5"><i
+                                class="fa-solid fa-share-from-square"></i>
+                            Compartir</a>
+                    </td>
+                </tr>
+                {%endfor%}
+
+
+            </tbody>
+        </table>
+
+
+        <!--Paginación-->
+        <div class="row mt-3">
+            <nav>
+                <ul class="pagination justify-content-center">
+                    {%if recipes.has_previous%}
+                    <li class="page-item"><a class="page-link bg-dark text-white" href="?page=1">Primera</a></li>
+                    <li class="page-item"><a class="page-link bg-dark text-white"
+                            href="?page={{recipes.previous_page_number}}">&laquo;</a>
+                    </li>
+                    {%endif%}
+
+                    {%for page in pages%}
+                    <li class="page-item {%if current_page == page%} active {%endif%}">
+                        <a class="page-link bg-dark text-white" href="?page={{page}}">{{page}}</a>
+                    </li>
+                    {%endfor%}
+
+                    {%if recipes.has_next%}
+                    <li class="page-item"><a class="page-link bg-dark text-white"
+                            href="?page={{recipes.next_page_number}}">&raquo;</a></li>
+                    <li class="page-item"><a class="page-link bg-dark text-white"
+                            href="?page={{recipes.paginator.num_pages}}">Última</a></li>
+                    {%endif%}
+                </ul>
+
+
+            </nav>
+        </div>
+        <div class="container-fluid text-center my-3">
+            <a class="btn btn-dark text-center fs-4" href="{% url 'Crear Receta' %}"><i class="fa-solid fa-plus"></i>
+                Crear receta</a>
+        </div>
+    </div>
+</form>
+
+{% endblock %}

@@ -1,0 +1,74 @@
+{% extends 'WeekFoodsApp/base_usuario.html' %}
+
+{% load static %}
+
+{% block content %}
+<h1 class="mt-4 text-center text-white">Añadir ingrediente</h1>
+
+<div class="container bg-dark text-white formularios fs-4">
+
+
+    <form action="{% url 'Agregar Ingrediente' %}" method="POST">
+        {% csrf_token %}
+
+        <!--Mensaje de error en caso que el ingrediente que intente añadir ya figura en la base de datos-->
+    {%if messages %}
+
+    {% for msg in messages %}
+    <div class="alert alert-{{msg.tags}} text-center mt-3">
+        <h2 class="h2 ml-2">¡{{msg}}!</h2>
+    </div>
+    {% endfor %}
+    {% endif %}
+
+    <!--Respuesta que aparecerá en pantalla cuando el usuario haya añadido el ingrediente-->
+    {% if 'valido' in request.GET %}
+
+    <h1 class="text-center fy-5">Ingrediente añadido. Pulse "Volver a la receta" o añada mas ingredientes</h1>
+
+    {% endif %}
+
+        <div class="row">
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label class="col-form-label mt-3" for="inputDefault">Nombre ingrediente:</label>
+                    {{form_ingredient.name_ingredient}}
+                </div>
+            </div>
+
+            <div class="col-sm-4 text-center">
+                <div class="form-group">
+                    <label class="col-form-label mt-3 tex" for="inputDefault">Tipo de ingrediente:</label>
+                    {{form_ingredient.type_food}}
+                </div>
+            </div>
+
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label class="col-form-label mt-3" for="inputDefault">Precio</label>
+                    {{form_ingredient.price}}
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+        <div class="container-fluid mt-4 pb-4">
+            <input type="submit" class="btn btn-primary btn-lg" value="Guardar">
+            {% if 'valido' in request.GET %}
+
+            <a href="{% url 'Crear Receta' %}" class="btn btn-primary btn-lg">Volver a la receta</a>
+
+            {% endif %}
+
+            <a href="{% url 'Crear Receta' %}" class="btn btn-primary btn-lg">Cancelar</a>
+        </div>
+
+    </form>
+
+</div>
+
+
+{%endblock%}

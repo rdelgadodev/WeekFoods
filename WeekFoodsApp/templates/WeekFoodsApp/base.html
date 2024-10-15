@@ -1,0 +1,115 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WeekFoods</title>
+
+    <!--Favicon-->
+    <link rel="shortcut icon" type="image/jpg" href="{% static 'WeekfoodsApp/img/Favicon.jpg' %}">
+
+    <!--Conexion Bootstrap-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
+
+    <!--Estilo de la pagina con Bootstrap CDN-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@4.5.2/dist/yeti/bootstrap.min.css"
+        integrity="sha384-mLBxp+1RMvmQmXOjBzRjqqr0dP9VHU2tb3FK6VB0fJN/AOu7/y+CAeYeWJZ4b3ii" crossorigin="anonymous">
+
+    <!--Google Fonts-->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&family=Josefin+Sans:ital,wght@0,100..700;1,100..700&family=Protest+Revolution&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+        rel="stylesheet">
+
+    <!--Vincular hoja CSS-->
+    <link type="text/css" rel="stylesheet" href="{% static 'WeekFoodsApp/css/weekfoods.css' %}">
+
+    <!--Font awesome-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    {% block style %} {% endblock %}
+
+    <!--Vincular Javascript-->
+    <script src="{% static 'WeekFoodsApp/js/weekfoods.js' %}"></script>
+
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.0/js/bootstrap.min.js"
+        integrity="sha384-3qaqj0lc6sV/qpzrc1N5DC6i1VRn/HyX4qdPaiEFbn54VjQBEU341pvjz7Dv3n6P"
+        crossorigin="anonymous"></script>
+    
+
+</head>
+
+
+
+<body>
+
+    <!--Cabecera-->
+    <div class="container-fluid cabecera">
+        <div class="row">
+
+            <div class="col-sm-2 mt-2"></div>
+
+            <div class="col-sm-6 text-left mt-2">
+                <h1 class="display-2 mensaje">Weekfoods</h1>
+                <p class="h1 mensaje">¡Organiza tu alimentación!</p>
+            </div>
+
+            {% block cabecera %} {% endblock %}
+
+
+
+            <!--Barra de navegacion-->
+            {% block navegacion %} {% endblock %}
+
+            <!--Cuerpo cambiante-->
+            {% block content %} {% endblock %}
+
+            <!--Footer-->
+            <footer class="text-white mt-5">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-sm-5 border-bottom"></div>
+                        <div class="col-sm-2 text-center">
+                            <i class="fa-brands fa-instagram mx-1 fs-5 mt-3"></i>
+                            <i class="fa-brands fa-twitter mx-1 fs-5"></i>
+                            <i class="fa-brands fa-facebook mx-1 fs-5"></i>
+                            <i class="fa-brands fa-linkedin mx-1 fs-5"></i>
+                        </div>
+                        <div class="col-sm-5 border-bottom"></div>
+                    </div>
+                </div>
+                <div class="container text-center mt-3 pb-1">
+                    <h1>WeekFoods</h1>
+                    <p>Copyright @ 2024 RDev</p>
+                </div>
+
+
+
+                <!--Script de Bootstrap-->
+                <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+                    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+                    crossorigin="anonymous"></script>
+                <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+                    integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+                    crossorigin="anonymous"></script>
+                <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"
+                    integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy"
+                    crossorigin="anonymous"></script>
+
+                <!--Iconos de Fontawesome-->
+                <script src="https://kit.fontawesome.com/2b53df46e3.js" crossorigin="anonymous"></script>
+
+</body>
+
+
+</html>

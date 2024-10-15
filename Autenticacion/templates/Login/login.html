@@ -1,0 +1,49 @@
+{% load static %}
+
+{% block cabecera %} 
+
+
+<div class="col-sm-4 mt-2">
+
+    {%if messages and request.path != '/registro/'%}
+
+        {% for msg in messages %}
+
+            <div class="alert alert-danger">
+                <h3>¡{{msg}}!</h3>
+            </div>
+        {% endfor %}
+            
+    {%endif%}
+
+
+    <div class="d-inline-flex">
+        <div class="pr-3">
+            <p class="h4">Accede a tu perfil</p>
+        </div>
+        <div><small><a href="{% url 'Registro' %}" class="h4 ml-3 ">¿Eres nuevo?</a></small></div>
+
+    </div>
+    
+
+    <form action="{% url 'Logear' %}" class="form-group mx-auto" method="post">{% csrf_token %}
+
+
+        
+        <input type="text" class="form-control acceder form-control-sm mb-2" id="Nombre_usuario"
+            aria-describedby="emailHelp" placeholder="Nombre de usuario" required name="username">
+
+
+        <input type="password" class="form-control acceder form-control-sm mb-2" id="Password" placeholder="Password"
+            autocomplete="off" required name="password">
+
+
+
+        <input type="submit" value="Login" class="btn btn-secondary mb-1 ml-0 login fs-5">
+        
+
+    </form>
+
+</div>
+
+{% endblock %}

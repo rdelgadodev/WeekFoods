@@ -1,0 +1,70 @@
+{% extends 'WeekFoodsApp/base_no_usuario.html' %}
+
+{% load static %}
+
+{% block content %}
+<h1 class="text-center mt-4">Un pequeño recorrido por nuestra web...</h1>
+
+<div class="container-sm py-5 bg-dark text-white contenedor">
+
+    <div id="carouselExampleDark" class="carousel carousel slide" data-bs-ride='True'>
+        <div class="carousel-indicators">
+            <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="0" class="active"
+                aria-current="true" aria-label="Slide 1"></button>
+            <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="1"
+                aria-label="Slide 2"></button>
+            <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="2"
+                aria-label="Slide 3"></button>
+            <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="3"
+                aria-label="Slide 4"></button>
+                <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="4"
+                aria-label="Slide 5"></button>
+                <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="5"
+                aria-label="Slide 6"></button>
+                
+        </div>
+        <div class="carousel-inner">
+            <div class="carousel-item active" data-bs-interval="20000">
+                <video autoplay loop width="640" height="560" class="d-block w-100">
+                    <source src="{% static 'WeekfoodsApp/img/Slide_01.mp4' %}" type="video/mp4">
+                </video>
+            </div>
+            <div class="carousel-item" data-bs-interval="20000">
+                <video autoplay loop width="640" height="560" class="d-block w-100">
+                    <source src="{% static 'WeekfoodsApp/img/Slide_02.mp4' %}" type="video/mp4">
+                </video>
+            </div>
+
+            <div class="carousel-item" data-bs-interval="20000">
+                <video autoplay loop width="640" height="560" class="d-block w-100">
+                    <source src="{% static 'WeekfoodsApp/img/Slide_03.mp4' %}" type="video/mp4">
+                </video>
+            </div>
+            <div class="carousel-item" data-bs-interval="20000">
+                <video autoplay loop width="640" height="560" class="d-block w-100">
+                    <source src="{% static 'WeekfoodsApp/img/Slide_04.mp4' %}" type="video/mp4">
+                </video>
+            </div>
+            <div class="carousel-item" data-bs-interval="20000">
+                <video autoplay loop width="640" height="560" class="d-block w-100">
+                    <source src="{% static 'WeekfoodsApp/img/Slide_05.mp4' %}" type="video/mp4">
+                </video>
+            </div>
+            <div class="carousel-item" data-bs-interval="20000">
+                <video autoplay loop width="640" height="560" class="d-block w-100">
+                    <source src="{% static 'WeekfoodsApp/img/Slide_06.mp4' %}" type="video/mp4">
+                </video>
+            </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+</div>
+
+{% endblock %}

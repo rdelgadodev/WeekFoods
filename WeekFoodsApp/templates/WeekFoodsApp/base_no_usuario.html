@@ -1,0 +1,40 @@
+{% extends 'WeekFoodsApp/base.html' %}
+
+{% load static %}
+
+<!--Cabecera-->
+{% block cabecera %} 
+
+{% include 'Login/login.html' %}
+
+{% endblock %}
+
+<!--Barra de navegacion-->
+{% block navegacion %}
+
+<nav class="navbar navbar-expand-lg bg-dark justify-content-center mt-3" data-bs-theme="dark">
+    <ul class="navbar-nav">
+        <li class="nav-brand">
+            <a class="nav-link {% if request.path == '/' %} active {% endif %} fs-3 mr-5 border-right pr-5" href="{% url 'Home' %}">
+                <i class="fa-solid fa-house fa-beat"
+                    style="margin-right: 10px; --fa-beat-scale: 2.0; --fa-animation-iteration-count:1"></i>Home</a>
+        </li>
+
+        <li class="nav-brand">
+            <a class="nav-link {% if request.path == '/quienes_somos/' %} active {% endif %} fs-3 mr-5 border-right pr-5" href="{% url 'Quienes somos' %}"><i
+                    class="fa-solid fa-clipboard-question fa-beat"
+                    style="margin-right: 10px; --fa-beat-scale: 2.0; --fa-animation-iteration-count:1"></i>Quiénes
+                somos</a>
+        </li>
+        <li class="nav-brand">
+            <a class="nav-link {% if request.path == '/como_trabajamos/' %} active {% endif %} fs-3 mr-5 pr-5 border-right" href="{% url 'Como trabajamos' %}"><i
+                    class="fa-regular fa-rectangle-list fa-beat"
+                    style="margin-right: 10px; --fa-beat-scale: 2.0; --fa-animation-iteration-count:1"></i>Cómo trabajamos</a>
+        </li>
+        <li class="nav-brand">
+            <a class="nav-link {% if request.path == '/contacto/' %} active {% endif %} fs-3" href="{% url 'Contacto' %}"><i class="fa-regular fa-envelope fa-beat"
+                    style="margin-right: 10px; --fa-beat-scale: 2.0; --fa-animation-iteration-count:1"></i>Contacto</a>
+        </li>
+    </ul>
+</nav>
+{% endblock %}
