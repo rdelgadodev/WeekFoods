@@ -1,109 +1,119 @@
-{% extends 'WeekFoodsApp/base_no_usuario.html' %}
-
-{% load static %}
-
-{% block content %}
-    <!--Cuerpo de página-->
-    <div class="container-fluid cuerpo_home">
-        <div class="row justify-content-center my-5">
-
-            <!--Tarjeta Recetas-->
-            <div class="col-sm-3">
-                <div class="card tarjeta">
-                    <h3 class="card-header">Recetas</h3>
-                    <img src="{% static 'WeekFoodsApp/img/tarjeta_recetas.jpg' %}" class="card-img-top imagen_tarjeta"
-                        alt="Recetas">
-                    <div class="card-body">
-                        <p class="card-text fs-5 texto_tarjeta">Ponemos a su disposición cientos de recetas,
-                            rápidas y sencillas de hacer. !Vaya a por el delantal y a cocinar! </p>
-                    </div>
-                </div>
-            </div>
-
-            <!--Tarjeta Menu Semanal-->
-            <div class="col-sm-3">
-                <div class="card tarjeta">
-                    <h3 class="card-header">Menú Semanal</h3>
-                    <img src="{% static 'WeekFoodsApp/img/tarjeta_menu_semanal.png' %}"
-                        class="card-img-top imagen_tarjeta" alt="Recetas">
-                    <div class="card-body">
-                        <p class="card-text fs-5 texto_tarjeta">Elaboramos menu semanal basado en sus preferencias
-                            para
-                            que no deba preocuparse de que comer hoy. </p>
-                    </div>
-                </div>
-            </div>
-
-            <!--Tarjeta Lista de la compra-->
-            <div class="col-sm-3">
-                <div class="card tarjeta">
-                    <h3 class="card-header">Lista de la compra</h3>
-                    <img src="{% static 'WeekFoodsApp/img/tarjeta_lista.png' %}" class="card-img-top imagen_tarjeta"
-                        alt="Recetas">
-                    <div class="card-body">
-                        <p class="card-text fs-5 texto_tarjeta">Te facilitamos la lista de la compra para poder
-                            tener todos los ingredientes necesarios</p>
-                    </div>
-                </div>
-            </div>
+{% extends 'WeekFoodsApp/base_no_usuario.html' %} {% load static %} {% block content %}
+<!--Cuerpo de página-->
+<div class="container-fluid cuerpo_home">
+  <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4 my-5">
+    <!--Tarjeta Recetas-->
+    <div class="col">
+      <div class="card tarjeta">
+        <h3 class="card-header">Recetas</h3>
+        <img
+          src="{% static 'WeekFoodsApp/img/tarjeta_recetas.jpg' %}"
+          class="card-img-top imagen_tarjeta"
+          alt="Recetas"
+        />
+        <div class="card-body">
+          <p class="card-text fs-5 texto_tarjeta">
+            Ponemos a su disposición cientos de recetas, rápidas y sencillas de
+            hacer. !Vaya a por el delantal y a cocinar!
+          </p>
         </div>
-
-        <div class="row justify-content-center">
-            <!--Tarjeta Informacion nutricional-->
-            <div class="col-sm-3">
-
-                <div class="card tarjeta">
-                    <h3 class="card-header">Información nutricional</h3>
-                    <img src="{% static 'WeekFoodsApp/img/tarjeta_nutricion.png' %}" class="card-img-top imagen_tarjeta"
-                        alt="Recetas">
-                    <div class="card-body">
-                        <p class="card-text fs-5 texto_tarjeta">Accede a las calorias que te aporta cada
-                            receta</p>
-                    </div>
-                </div>
-
-            </div>
-
-            <!--Tarjeta Presupuesto Semanal-->
-            <div class="col-sm-3">
-
-                <div class="card tarjeta">
-                    <h3 class="card-header">Presupuesto Semanal</h3>
-                    <img src="{% static 'WeekFoodsApp/img/tarjeta_presupuesto.jpg' %}"
-                        class="card-img-top imagen_tarjeta" alt="Recetas">
-                    <div class="card-body">
-                        <p class="card-text fs-5 texto_tarjeta">Te indicamos el coste del carro de tu compra
-                            (aproximadamente)</p>
-                    </div>
-
-                </div>
-            </div>
-
-            <!--Tarjeta Comunidad-->
-            <div class="col-sm-3">
-                <div class="card tarjeta">
-                    <h3 class="card-header">Comunidad</h3>
-                    <img src="{% static 'WeekFoodsApp/img/tarjeta_comunidad.png' %}" class="card-img-top imagen_tarjeta"
-                        alt="Recetas">
-                    <div class="card-body">
-                        <p class="card-text fs-5 texto_tarjeta">Porque compartir es vivir, crea recetas y
-                            compartelas con nuestra comunidad</p>
-                    </div>
-
-                </div>
-            </div>
-        </div>
+      </div>
     </div>
 
-    <div class="container my-5 text-white text-center">
-        <p class="h3 fs-1">¡Regístrese y empiece a disfrutar cocinando!</p>
+    <!--Tarjeta Menu Semanal-->
+    <div class="col">
+      <div class="card tarjeta">
+        <h3 class="card-header">Menú Semanal</h3>
+        <img
+          src="{% static 'WeekFoodsApp/img/tarjeta_menu_semanal.png' %}"
+          class="card-img-top imagen_tarjeta"
+          alt="Recetas"
+        />
+        <div class="card-body">
+          <p class="card-text fs-5 texto_tarjeta">
+            Elaboramos menu semanal basado en sus preferencias para que no deba
+            preocuparse de que comer hoy.
+          </p>
+        </div>
+      </div>
     </div>
 
-{% endblock %}
+    <!--Tarjeta Lista de la compra-->
+    <div class="col">
+      <div class="card tarjeta">
+        <h3 class="card-header">Lista de la compra</h3>
+        <img
+          src="{% static 'WeekFoodsApp/img/tarjeta_lista.png' %}"
+          class="card-img-top imagen_tarjeta"
+          alt="Recetas"
+        />
+        <div class="card-body">
+          <p class="card-text fs-5 texto_tarjeta">
+            Te facilitamos la lista de la compra para poder tener todos los
+            ingredientes necesarios
+          </p>
+        </div>
+      </div>
+    </div>
+  
 
+  
+    <!--Tarjeta Informacion nutricional-->
+    <div class="col">
+      <div class="card tarjeta">
+        <h3 class="card-header">Información nutricional</h3>
+        <img
+          src="{% static 'WeekFoodsApp/img/tarjeta_nutricion.png' %}"
+          class="card-img-top imagen_tarjeta"
+          alt="Recetas"
+        />
+        <div class="card-body">
+          <p class="card-text fs-5 texto_tarjeta">
+            Accede a las calorias que te aporta cada receta
+          </p>
+        </div>
+      </div>
+    </div>
 
+    <!--Tarjeta Presupuesto Semanal-->
+    <div class="col">
+      <div class="card tarjeta">
+        <h3 class="card-header">Presupuesto Semanal</h3>
+        <img
+          src="{% static 'WeekFoodsApp/img/tarjeta_presupuesto.jpg' %}"
+          class="card-img-top imagen_tarjeta"
+          alt="Recetas"
+        />
+        <div class="card-body">
+          <p class="card-text fs-5 texto_tarjeta">
+            Te indicamos el coste del carro de tu compra (aproximadamente)
+          </p>
+        </div>
+      </div>
+    </div>
 
+    <!--Tarjeta Comunidad-->
+    <div class="col">
+      <div class="card tarjeta">
+        <h3 class="card-header">Comunidad</h3>
+        <img
+          src="{% static 'WeekFoodsApp/img/tarjeta_comunidad.png' %}"
+          class="card-img-top imagen_tarjeta"
+          alt="Recetas"
+        />
+        <div class="card-body">
+          <p class="card-text fs-5 texto_tarjeta">
+            Porque compartir es vivir, crea recetas y compartelas con nuestra
+            comunidad
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
-    
+<div class="container my-5 text-white text-center">
+  <p class="h3 fs-1">¡Regístrese y empiece a disfrutar cocinando!</p>
+</div>
 
-    
+{% endblock content%}
