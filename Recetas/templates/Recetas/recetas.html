@@ -32,9 +32,10 @@
             <tbody class='fs-5'>
                 {%for recipe in recipes%}
                 <tr>
-                    <td>{{recipe.name}}</td>
-                    <td>{{recipe.calories}}</td>
-                    <td class="text-right" style="width: auto;"><a href="{% url 'Ver Receta' recipe.id %}" class="btn btn-dark text-center fs-5 ml-5"><i
+                    <td class="d-flex justify-content-center align-items-center"><span>{{recipe.name}}</span></td>
+                    <td><span>{{recipe.calories}}</span></td>
+                    <td class="text-right d-flex flex-column flex-lg-row align-items-center justify-content-center" style="width: auto;">
+                        <a href="{% url 'Ver Receta' recipe.id %}" class="btn btn-dark text-center fs-5 mr-5"><i
                                 class="fa-solid fa-magnifying-glass"></i>Ver receta </a>
                         <a href="{% url 'Eliminar' recipe.id %}" class="btn btn-dark text-center fs-5 mx-4"><i
                                 class="fa-solid fa-trash-can"></i>

@@ -5,8 +5,14 @@
 <div class="col d-flex flex-column align-items-center">
   {%if messages and request.path != '/registro/'%} {% for msg in messages %}
 
-  <div class="alert alert-danger">
-    <h3>¡{{msg}}!</h3>
+  <div class="alert alert-danger alert-dismissible fade show" role="alert">
+    <p class="mb-0">¡Error: {{ msg }}!</p>
+    <button
+      type="button"
+      class="btn-close"
+      data-bs-dismiss="alert"
+      aria-label="Close"
+    ></button>
   </div>
   {% endfor %} {%endif%}
 
@@ -23,7 +29,8 @@
 
   <form action="{% url 'Logear' %}" method="post" class="d-flex gap-2">
     {% csrf_token %}
-
+    <!--Quiero que el label sea visualmente oculta pero siga siendo accesible para los lectores de pantalla-->
+    <label for="Nombre_usuario" class="form-label visually-hidden">Nombre de usuario</label>
     <input
       type="text"
       id="Nombre_usuario"
@@ -32,8 +39,9 @@
       required
       name="username"
       class="form-control"
+      autocomplete="username"
     />
-
+    <label for="Password" class="form-label visually-hidden">Contraseña</label>
     <input
       type="password"
       id="Password"
@@ -42,6 +50,7 @@
       required
       name="password"
       class="form-control"
+      autocomplete="current-password"
     />
 
     <input type="submit" value="Login" />

@@ -25,18 +25,18 @@
 
     {%endif%}
 
-    <div class="row my-3">
-        <div class="col sm-6">
-            <div class="input-group my-2 input-group-sm">
-                <span class="input-group-text fs-5 bg-dark text-white">Indique las calorias máximas diarias</span>
+    <div class="row my-3 d-flex justify-content-center g-2">
+        <div class="col-12 col-sm-3">
+           
+                <span class="input-group-text text-wrap text-center fs-5 bg-dark text-white">Indique las calorias máximas diarias</span>
                 <input type="number" class="form-control fs-3" name="calorias" placeholder="Mínimo 1600">
-            </div>
+         
         </div>
-        <div class="col sm-6">
-            <div class="input-group my-2 input-group-sm">
-                <span class="input-group-text fs-5 bg-dark text-white">Indique presupuesto máximo diario</span>
+        <div class="col-12 col-sm-3">
+            
+                <span class="input-group-text fs-5 bg-dark text-white text-wrap text-center ">Indique presupuesto máximo diario</span>
                 <input type="number" class="form-control fs-3" name="gasto" placeholder="Mínimo 10€">
-            </div>
+    
         </div>
     </div>
 
@@ -67,7 +67,7 @@
                     <!-- Receta Comida Lunes-->
 
                     {%if recetas.0 == None or check_recipes.0 == 'on'%}
-                    <td><select class="form-select fs-5" name="recipe_dinner_monday">
+                    <td><select class="form-select" name="recipe_dinner_monday">
                             {%for receta in recetas_dia%}
                             <option>{{receta.name}}</option>
                             {%endfor%}

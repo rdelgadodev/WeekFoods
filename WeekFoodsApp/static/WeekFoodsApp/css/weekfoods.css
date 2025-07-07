@@ -9,6 +9,7 @@
 body {
     font-family: "Dancing Script", cursive;
     background-color: #C8B79B;
+    min-width: 390px;
 }
 
 
@@ -77,7 +78,7 @@ body {
 /* Estilo para quienes_somos.html y ver_recetas.html*/
 
 .contenedor {
-    margin-top: 50px;
+
     opacity: 0.9;
     border-radius: 10px;
 }
@@ -117,7 +118,7 @@ body {
 /* Estilo para nuevo_user.html y crear_receta.html*/
 
 .formularios {
-    width: 800px;
+    width: 80%;
     opacity: 0.7;
     border-radius: 10px;
     margin-top: 40px;
@@ -212,6 +213,7 @@ body {
 
     margin: auto 300px;
 }
+
 
 /* ----------------------------------------------------------------------------------------------------- */
 /* ----------------------------------------------------------------------------------------------------- */

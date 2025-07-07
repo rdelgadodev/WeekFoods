@@ -4,48 +4,78 @@
 
 {% block content %}
 
-<h1 class="mt-4 text-center text-white">¡Regístrate!</h1>
+<h1 class="my-4 text-center text-white">¡Regístrate!</h1>
 
-<div class="container-sm py-3 bg-dark text-white text-justify formularios fs-4">
+<div class="container-sm py-3 bg-dark text-white fs-4">
     <form class="form-group" action="{% url 'Registro' %}" method="POST">
         {% csrf_token %}
 
 
-        <!--Primera fila-->
+
+        <!--Sección para mostrar mensajes globales (éxito/error/warning) de Django -->
 
         {%if messages %}
 
-            {% for msg in messages %}
+        {% for msg in messages %}
 
-                <div class="alert alert-{{msg.tags}}">
-                    <h3>¡{{msg}}!</h3>
-                </div>
-            {% endfor %}
-            
+        <div class="alert alert-{{msg.tags}} alert-dismissible fade show">
+            <p class='mb-0'>{{msg}}</p>
+            <button type="button" class='btn-close' data-bs-dismiss='alert' aria-label="Cerrar"></button>
+        </div>
+        {% endfor %}
+
         {%endif%}
 
+        <!--Errores no de campo-->
+        {%if form.non_field_errors %}
+
+        <div class="alert alert-danger alert-dismissible fade show" role='alert'>
+            {% for error in form.non_field_errors %}
+            <p class='mb-0'>{{error}}</p>
+
+
+            {% endfor %}
+            <button type="button" class='btn-close' data-bs-dismiss='alert' aria-label="Cerrar"></button>
+        </div>
+
+        {%endif%}
+
+        <!--Primera fila-->
         <div class="row">
-            <div class="col sm-4">
-                <div class="form-group">
-                    <label class="col-form-label mt-4" for="inputDefault">Nombre de usuario:</label>
+            <div class="col-12 col-sm-4">
+                <div class="form-group mb-3">
+                    <!--Etiqueta asociada al campo 'username' por su ID, con estilos de Bootstrap-->
+                    <label class="col-form-label mt-4" for="{{form.username.id_for_label}}">Nombre de usuario:</label>
                     {{form.username}}
+                    <!-- Itera y muestra cualquier error específico de validación para el campo 'username'-->
+                    {% for error in form.username.errors %}
+                    <div class="invalid-feedback d-block">{{ error }}</div> {# Clases de Bootstrap para errores #}
+                    {% endfor %}
                 </div>
             </div>
 
-            <div class="col sm-4">
-                <div class="form-group">
-                    <label class="col-form-label mt-4" for="inputDefault">Contraseña:</label>
+            <div class="col-12 col-sm-4">
+                <div class="form-group mb-3">
+                    <label class="col-form-label mt-4" for="{{form.password1.id_for_label}}">Contraseña:</label>
                     {{form.password1}}
+                    {% for error in form.password.errors %}
+                    <div class="invalid-feedback d-block">{{ error }}</div>
+                    {% endfor %}
                 </div>
-                <h5>Mínimo 8 caracteres</h5>
             </div>
 
-            <div class="col sm-4">
-                <div class="form-group">
-                    <label class="col-form-label mt-4" for="inputDefault">Repita Contraseña:</label>
+
+
+            <div class="col-12 col-sm-4">
+                <div class="form-group mb-3">
+                    <label class="col-form-label mt-4" for="{{form.password2.id_for_label}}">Repita Contraseña:</label>
                     {{form.password2}}
+                    <!--Itera y muestra cualquier error específico de validación para el campo 'password2'-->
+                    {% for error in form.password2.errors %}
+                    <div class="invalid-feedback d-block">{{ error }}</div> {# Clases de Bootstrap para errores #}
+                    {% endfor %}
                 </div>
-                <h5>Mínimo 8 caracteres</h5>
+
             </div>
         </div>
 
@@ -53,24 +83,36 @@
 
         <!--Segunda fila-->
         <div class="row">
-            <div class="col sm-4">
-                <div class="form-group">
-                    <label class="col-form-label mt-4" for="inputDefault">Nombre:</label>
+            <div class="col-12 col-sm-4">
+                <div class="form-group mb-3">
+                    <label class="col-form-label mt-4" for="{{form.first_name.id_for_label}}">Nombre:</label>
                     {{form.first_name}}
+                    <!-- Itera y muestra cualquier error específico de validación para el campo 'firts_name'-->
+                    {% for error in form.first_name.errors %}
+                    <div class="invalid-feedback d-block">{{ error }}</div> {# Clases de Bootstrap para errores #}
+                    {% endfor %}
                 </div>
             </div>
 
-            <div class="col sm-4">
-                <div class="form-group">
-                    <label class="col-form-label mt-4" for="inputDefault">Apellidos:</label>
+            <div class="col-12 col-sm-4">
+                <div class="form-group mb-3">
+                    <label class="col-form-label mt-4" for="{{form.last_name.id_for_label}}">Apellidos:</label>
                     {{form.last_name}}
+                    <!-- Itera y muestra cualquier error específico de validación para el campo 'last_name'-->
+                    {% for error in form.last_name.errors %}
+                    <div class="invalid-feedback d-block">{{ error }}</div> {# Clases de Bootstrap para errores #}
+                    {% endfor %}
                 </div>
             </div>
 
-            <div class="col sm-4">
-                <div class="form-group">
-                    <label class="col-form-label mt-4" for="inputDefault">Email:</label>
+            <div class="col-12 col-sm-4">
+                <div class="form-group mb-3">
+                    <label class="col-form-label mt-4" for="{{form.email.id_for_label}}">Email:</label>
                     {{form.email}}
+                    <!-- Itera y muestra cualquier error específico de validación para el campo 'email'-->
+                    {% for error in form.email.errors %}
+                    <div class="invalid-feedback d-block">{{ error }}</div> {# Clases de Bootstrap para errores #}
+                    {% endfor %}
                 </div>
             </div>
 
