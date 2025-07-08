@@ -3,9 +3,9 @@
 {% load static %}
 
 {% block content %}
-<h1 class="mt-4 text-center text-white">Contáctanos</h1>
+<h1 class="my-4 text-center text-white">Contáctanos</h1>
 
-<div class="container bg-dark text-white datos_contacto fs-4">
+<div class="container bg-dark text-white fs-4">
 
 <!--Respuesta que aparecerá en pantalla cuando el usuario haya enviado el mensaje-->   
 {% if 'valido' in request.GET %}
@@ -19,46 +19,38 @@
 
         {% csrf_token %}
 
-        <div class="row">
-            <div class="col-sm-5 ">
+       
                 <div class="form-group">
                     <label class="col-form-label mt-3" for="inputDefault">Nombre completo:</label>
                     {{mi_formulario.name}}
                 </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-sm-5 ">
+       
+        
                 <div class="form-group">
                     <label class="col-form-label" for="inputDefault">Correo electrónico:</label>
                     {{mi_formulario.email}}
                 </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-sm-5 ">
+     
+       
                 <div class="form-group">
                     <label class="col-form-label" for="inputDefault">Asunto:</label>
                     {{mi_formulario.subject}}
                 </div>
-            </div>
-        </div>
-        <div class="row">
+ 
+     
             <div class="form-group">
                 <label for="exampleTextarea" class="form-label mt-3 fs-3">Texto:</label>
                 {{mi_formulario.mesage}}
             </div>
-        </div>
-        <div class="row mb-3">
-            <div class="col sm-5">
+      
+  
                 <div class="form-check form-switch ml-5 mt-4">
                     <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault" required>
                     <label class="form-check-label" for="flexSwitchCheckDefault">Aceptación de términos y condiciones,
                         política de privacidad y consentimiento para el procesamiento de datos personales: para cumplir
                         con las regulaciones de protección de datos y establecer las expectativas del usuario.</label>
                 </div>
-            </div>
-        </div>
+   
         <div class="container mt-4 pb-4">
             <input type="submit" class="btn btn-primary btn-lg" value="Enviar">
             <a href="{% url 'Home' %}" class="btn btn-primary btn-lg">Cancelar</a>

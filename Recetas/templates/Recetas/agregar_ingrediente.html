@@ -3,7 +3,7 @@
 {% load static %}
 
 {% block content %}
-<h1 class="mt-4 text-center text-white">Añadir ingrediente</h1>
+<h1 class="my-4 text-center text-white">Añadir ingrediente</h1>
 
 <div class="container bg-dark text-white formularios fs-4">
 
@@ -29,25 +29,19 @@
     {% endif %}
 
         <div class="row">
-            <div class="col-sm-4">
-                <div class="form-group">
+            <div class="col-md-4">              
                     <label class="col-form-label mt-3" for="inputDefault">Nombre ingrediente:</label>
                     {{form_ingredient.name_ingredient}}
-                </div>
             </div>
 
-            <div class="col-sm-4 text-center">
-                <div class="form-group">
+            <div class="col-md-4">
                     <label class="col-form-label mt-3 tex" for="inputDefault">Tipo de ingrediente:</label>
                     {{form_ingredient.type_food}}
-                </div>
             </div>
 
-            <div class="col-sm-4">
-                <div class="form-group">
+            <div class="col-md-4">
                     <label class="col-form-label mt-3" for="inputDefault">Precio</label>
                     {{form_ingredient.price}}
-                </div>
             </div>
         </div>
 

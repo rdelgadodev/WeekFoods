@@ -3,9 +3,9 @@
 {% load static %}
 
 {% block content %}
-<h1 class="mt-4 text-center text-white">Creando receta...</h1>
+<h1 class="my-4 text-center text-white">Creando receta...</h1>
 
-<div class="container bg-dark text-white formularios fs-4">
+<div class="container bg-dark text-white fs-4">
 
 
 
@@ -32,35 +32,34 @@
 
 
         <div class="row">
-            <div class="col-sm-4">
-                <div class="form-group">
+                <div class="col-sm-4">
                     <label class="col-form-label mt-3" for="inputDefault">Nombre receta:</label>
                     {{form_recipe.name}}
                 </div>
-            </div>
+        
 
             <div class="col-sm-4">
-                <div class="form-group">
+       
                     <label class="col-form-label mt-3" for="inputDefault">Elaboración:</label>
                     {{form_recipe.elaboration}}
-                </div>
+                
             </div>
 
             <div class="col-sm-4">
-                <div class="form-group">
+                
                     <label class="col-form-label mt-3" for="inputDefault">Calorias</label>
                     {{form_recipe.calories}}
-                </div>
+             
             </div>
         </div>
 
         <div class="row">
-            <div class="col">
+            
                 <div class="form-group text-center">
                     <label class="col-form-label m-3" for="inputDefault">Momento del día para comer:</label>
                     {{form_recipe.when_you_eat}}
                 </div>
-            </div>
+           
         </div>
 
         <div class="row">

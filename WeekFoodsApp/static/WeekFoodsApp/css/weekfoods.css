@@ -37,28 +37,11 @@ body {
 /* ----------------------------------------------------------------------------------------------------- */
 
 /* Estilo para home.html*/
-.tarjeta {
-    height: 300px;
-    border-radius: 10px;
-}
 
-.imagen_tarjeta {
 
-    height: 240px;
-    object-fit: cover;
-    border-radius: 10px;
-    transition: all 400ms ease;
-}
 
-.texto_tarjeta {
-    position: absolute;
-    top: 125px;
-    left: 10px;
-    text-align: center;
-    opacity: 0;
-    transition: all 400ms ease;
-    font-weight: bold;
-}
+
+
 
 .tarjeta:hover .imagen_tarjeta {
     opacity: 0.2;
