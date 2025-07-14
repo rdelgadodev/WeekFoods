@@ -33,7 +33,11 @@ class Registro(View):
             # creamos usuario dentro de la base de datos creada en models y le asignamos todas las recetas
             userweekfoods = UserWeekfoods(user=usuario)
             userweekfoods.save()
-            userweekfoods.recipe.set(Recipe.objects.all())
+            # Vamos a asignar como mínimo 20 recetas, 10 de cena y 10 de comida.
+            comida_recipes = Recipe.objects.filter(when_you_eat='Comida')[:5]
+            cena_recipes = Recipe.objects.filter(when_you_eat='Cena')[:5]
+            initial_recipes = list(comida_recipes) + list(cena_recipes)
+            userweekfoods.recipe.set(initial_recipes)
 
             # Redirige a la pagina de home del usuario logeado
             return redirect('Home Usuario')
@@ -61,6 +65,7 @@ def logear(request):
 
         if form.is_valid():
             user_valid = form.get_user()  # Obtienes al usuario
+            login(request, user_valid)  # Para que se logee
             return redirect('Home Usuario')
 
         else:

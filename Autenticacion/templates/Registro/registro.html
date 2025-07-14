@@ -49,7 +49,7 @@
                     {{form.username}}
                     <!-- Itera y muestra cualquier error específico de validación para el campo 'username'-->
                     {% for error in form.username.errors %}
-                    <div class="invalid-feedback d-block">{{ error }}</div> {# Clases de Bootstrap para errores #}
+                    <div class="invalid-feedback d-block">{{ error }}</div> <!-- Clases de Bootstrap para errores -->
                     {% endfor %}
                 </div>
             </div>

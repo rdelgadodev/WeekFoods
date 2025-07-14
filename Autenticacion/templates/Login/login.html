@@ -9,7 +9,7 @@
     <p class="mb-0">¡Error en el formulario!</p>
     {%for error in form.non_field_errors%}
     <p>{{error}}</p>
-    {%endfor%} {%endif%}
+    {%endfor%} 
     <button
       type="button"
       class="btn-close"
@@ -17,7 +17,7 @@
       aria-label="Close"
     ></button>
   </div>
-
+{%endif%}
   <div class="d-flex">
     <p class="fs-3 me-3 mb-1 text-center">Accede a tu perfil</p>
 
