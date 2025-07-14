@@ -25,6 +25,7 @@
 
         {% csrf_token %}
 
+            <!--Por posibles errores que no sean de algún campo del formulario -->   
                 {% if mi_formulario.non_field_errors %}
                 <div class="alert alert-{{message.tags}} alert-dismissible fade show mt-3">
                     {%for error in mi_formulario.non_field_errors%}
@@ -34,6 +35,8 @@
                 </div>
                 {%endif%}
 
+                <!--Para cada input se comprueba que no haya errores-->
+                
                 <div class="form-group">
                     <label class="col-form-label mt-3" for="{{mi_formulario.name.id_for_label}}">Nombre completo:</label>
                     {{mi_formulario.name}}
