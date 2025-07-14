@@ -60,18 +60,12 @@ def logear(request):
         form = AuthenticationForm(request, data=request.POST)
 
         if form.is_valid():
-            nombre_usuario = form.cleaned_data.get('username')
-            contra = form.cleaned_data.get('password')
-            usuario = authenticate(username=nombre_usuario, password=contra)
-            if usuario is not None:
-                login(request, usuario)
-                return redirect('Home Usuario')
-            else:
-                messages.error(request, 'Usuario no válido')
+            user_valid = form.get_user()  # Obtienes al usuario
+            return redirect('Home Usuario')
+
         else:
-            messages.error(
-                request, 'Usuario o contraseña incorrectos. Por favor, vuelva a intentarlo.')
-            return redirect('Home')
+            # Si existen errores, pasaran a traves de form.errors.
+            return render(request, 'WeekfoodsApp/home.html', {'form': form})
 
     form = AuthenticationForm()
     return render(request, 'WeekfoodsApp/home.html', {'form': form})

@@ -3,10 +3,13 @@
 <!--Right side header-->
 <!--Mensaje de error en caso que los datos introducidos para acceder no sean correctos-->
 <div class="col d-flex flex-column align-items-center">
-  {%if messages and request.path != '/registro/'%} {% for msg in messages %}
+  {%if form.non_field_errors %}
 
-  <div class="alert alert-danger alert-dismissible fade show" role="alert">
-    <p class="mb-0">¡Error: {{ msg }}!</p>
+  <div class="alert alert-danger alert-dismissible fade show text-center" role="alert">
+    <p class="mb-0">¡Error en el formulario!</p>
+    {%for error in form.non_field_errors%}
+    <p>{{error}}</p>
+    {%endfor%} {%endif%}
     <button
       type="button"
       class="btn-close"
@@ -14,7 +17,6 @@
       aria-label="Close"
     ></button>
   </div>
-  {% endfor %} {%endif%}
 
   <div class="d-flex">
     <p class="fs-3 me-3 mb-1 text-center">Accede a tu perfil</p>
@@ -30,7 +32,9 @@
   <form action="{% url 'Logear' %}" method="post" class="d-flex gap-2">
     {% csrf_token %}
     <!--Quiero que el label sea visualmente oculta pero siga siendo accesible para los lectores de pantalla-->
-    <label for="Nombre_usuario" class="form-label visually-hidden">Nombre de usuario</label>
+    <label for="Nombre_usuario" class="form-label visually-hidden">
+      Nombre de usuario
+    </label>
     <input
       type="text"
       id="Nombre_usuario"
