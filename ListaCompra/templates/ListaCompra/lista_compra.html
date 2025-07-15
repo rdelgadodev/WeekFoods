@@ -7,14 +7,14 @@
 {% if not shopping_dict %}
 <div class="container mt-5 bg-dark fs-2 text-center">No hay productos añadidos. Dirígase a 'Menú Semanal' para generar un menú</div>
 {% else %}
-<div class="container my-3 fs-1 text-center">Cesta de la compra</div>
-<div class="table-responsive-sm text-center fs-1">
+<div class="container my-3 fs-2 text-center">Cesta de la compra</div>
+<div class="table-responsive-sm text-center">
     <table class="table table-dark fs-4">
         <thead>
             <tr>
                 <th scope="col">Ingrediente</th>
                 <th scope="col">Cantidad</th>
-                <th scope="col">Precio(€)*</th>
+                <th scope="col">Precio Total(€)*</th>
             </tr>
         </thead>
         <tbody class = 'fs-5'>
@@ -30,7 +30,7 @@
         </tbody>
     </table>
 </div>
-    <p class="apreciacion">*Los precios son apróximados y por unidad. Ejemplo: los huevos los venden en pack, el precio indicado es unitario.</p>
+    <p class="apreciacion">*Los precios son apróximados.</p>
 
     <div class="container my-5 bg-dark text-center">
         <h2 class='text-light'>Coste total: {{total_price}} €</h2></div>
