@@ -4,6 +4,8 @@ from WeekFoodsApp.models import UserWeekfoods, Recipe, Ingredient
 from django.core.paginator import Paginator
 from .forms import RecipeForms, IngredientForms
 from django.contrib import messages
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.generic import DetailView
 
 
 @login_required
@@ -57,26 +59,51 @@ def eliminar_receta(request, recipe_id):
 # ----------------------------------------------------------------------------------------------------------- #
 # ----------------------------------------------------------------------------------------------------------- #
 
-@login_required
-def ver_receta(request, recipe_id):
-
-    # Pasamos como parametros al template los datos de la receta seleccionada por el usuario.
-    # Almacenamos en una variable todos los datos y en otro los ingredientes.
-    recipe_select = Recipe.objects.get(id=recipe_id)
-    ingredient_recipe_select = recipe_select.ingredients.all()
-
-    total_price = 0
-
-    for ing in ingredient_recipe_select:
-        total_price += ing.price
-
-    return render(request, 'Recetas/ver_receta.html', {'recipe_select' : recipe_select,
-                                                       'ingredient_recipe_select' : ingredient_recipe_select,
-                                                       'total_price' : round(total_price, 2)})
-
-# ----------------------------------------------------------------------------------------------------------- #
-# ----------------------------------------------------------------------------------------------------------- #
-
+    """
+    Vista basada en clases para mostrar los detalles de una receta específica.
+    Requiere que el usuario esté autenticado.
+    """
+class VerRecetaDetail(LoginRequiredMixin, DetailView):
+     # Define el modelo del cual esta DetailView obtendrá un único objeto.
+    model = Recipe
+     # Define la plantilla HTML que esta vista renderizará.
+    template_name = 'Recetas/ver_receta.html'
+    # Define el nombre de la variable de contexto que contendrá el objeto Recipe
+    # principal en la plantilla. Así, en el template, será {{ recipe_select }}.
+    context_object_name = 'recipe_select'
+    
+    
+    """
+        Preparamos el diccionario de contexto que se pasará a la plantilla.
+        Calcular el precio total de los ingredientes de la receta seleccionada
+        y añadir los ingredientes y el precio al contexto.
+        """
+    def get_context_data(self, **kwargs):
+        # Llama al método get_context_data de la superclase (DetailView)
+        # para obtener el contexto base que ya proporciona Django.
+        # Este contexto ya incluirá 'recipe_select' (el objeto Recipe principal).
+        context = super().get_context_data(**kwargs)
+        
+        
+        # El objeto Recipe principal ya está disponible como context['recipe_select']
+        # De aqui sacaremos todos los ingredientes y el precio total.
+        recipe_select = context['recipe_select']
+        
+        #Ingredientes
+        ingredient_recipe_select = recipe_select.ingredients.all()
+        
+        #Calcular precio total
+        total_price = 0
+        for ing in ingredient_recipe_select:
+            total_price += ing.price
+            
+         # Añadir los contextos adicionales al diccionario 'context'.
+        context['ingredient_recipe_select'] = ingredient_recipe_select
+        context['total_price'] = round(total_price, 2)
+        
+        return context
+        
+        
 
 @login_required
 def compartir_receta(request, recipe_id):
