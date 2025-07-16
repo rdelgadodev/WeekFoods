@@ -1,8 +1,10 @@
 from django.shortcuts import render
+from django.views.generic import ListView
 from django.contrib.auth.decorators import login_required
 import random
-from .models import UserWeekfoods
+from .models import Recipe, UserWeekfoods
 import requests
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 
 def home(request):
@@ -17,29 +19,32 @@ def como_trabajamos(request):
     return render(request, 'WeekfoodsApp/como_trabajamos.html')
 
 
-@login_required
-def home_usuario(request):
+class HomeUsuarioView(LoginRequiredMixin, ListView):
+    # Queremos listar objetos del tipo Recipe
+    model: Recipe
+    # Plantilla donde se renderiza
+    template_name = 'WeekFoodsApp/home_usuario.html'
+    # Nombre de la variable que se pasara como contexto a la plantilla
+    context_object_name = 'list_recipe'
 
-    # En esta página inicial, vamos a sugerir al usuario 3 recetas al azar.
-    # Obtenemos las recetas que el usuario tiene almacenadas en su cuenta.
+    # Sobreescribimos este método para definir el QuerySet que se mostrará
 
-    user_name = request.user  # Consultamos que usuario esta ahora activo en la web
-    # almacenamos todos los datos de ese usuario
-    user_recipes = UserWeekfoods.objects.get(user=user_name)
-    # Almacenamos todas las recetas de las que dispone y lo ponemos en formato lista para usar posteriormente random.sample.
-    recipes = list(user_recipes.recipe.all())
+    def get_queryset(self):
+        # Obtenemos todas las recetas de que disponemos en el modelo Recipe
+        all_instance_recipe = Recipe.objects.all()
 
-    # Creamos una lista donde almacenaremos 3 recetas que aleatoriamente serán escogidas.
-    # Esa lista se pasará como contexto para su visualizacion.
-    list_recipes_suggestion = list()
+        # Convertimos el QuerySet en lista para poder usar el random.sample
+        recipe_list = list(all_instance_recipe)
 
-    # Usamos condicional if para ir escogiendo las 3 recetas al azar.
-    # Si el lista de recetas es mayor o igual a 3, escogerá 3 al azar, si es menor, pondrá todas las que haya.
+        # Seleccionar 3 recetas al azar o todas las disponibles si hay menos de 3.
+        # Este bloque maneja el caso en que no haya suficientes recetas en la base de datos.
+        if len(recipe_list) >= 3:
+            recipe_suggestion = random.sample(recipe_list, 3)
+        else:
+            recipe_suggestion = recipe_list
 
-    if len(recipes) >= 3:
-        list_recipes_suggestion = random.sample(recipes, 3)
+        return recipe_suggestion
+    
+      
 
-    else:
-        list_recipes_suggestion = recipes
 
-    return render(request, 'WeekFoodsApp/home_usuario.html', {'list_recipe': list_recipes_suggestion})
