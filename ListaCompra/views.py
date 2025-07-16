@@ -1,5 +1,3 @@
-from django.shortcuts import render
-from django.contrib.auth.decorators import login_required
 from WeekFoodsApp.models import UserWeekfoods
 from MenuSemanal.models import WeeklyMenu
 from django.views.generic import TemplateView

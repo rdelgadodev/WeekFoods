@@ -58,8 +58,8 @@
 
         <!--Left side header-->
             <div class="col text-center">
-                <h1 class="display-3 display-sm-2 display-md-1 mensaje">Weekfoods</h1>
-                <p class="fs-3 fs-sm-3 fs-md-2 mensaje">¡Organiza tu alimentación!</p>
+                <a href="{% if request.user.is_authenticated%}{%url 'Home Usuario'%}{%else%}{%url 'Home'%}{%endif%}" class='text-decoration-none text-white'><h1 class="display-3 display-sm-2 display-md-1">Weekfoods</h1>
+                <p class="fs-3 fs-sm-3 fs-md-2 mensaje">¡Organiza tu alimentación!</p></a>
             </div>
             
 
