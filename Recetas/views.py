@@ -1,11 +1,12 @@
 from django.shortcuts import render, HttpResponse, redirect
 from django.contrib.auth.decorators import login_required
+from django.views import View
 from WeekFoodsApp.models import UserWeekfoods, Recipe, Ingredient
 from django.core.paginator import Paginator
 from .forms import RecipeForms, IngredientForms
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic import DetailView, ListView
+from django.views.generic import DetailView, ListView, DeleteView
 
 
 
@@ -42,17 +43,26 @@ class RecetasListView(LoginRequiredMixin,ListView):
 # ----------------------------------------------------------------------------------------------------------- #
 # ----------------------------------------------------------------------------------------------------------- #
 
-@login_required
-def eliminar_receta(request, recipe_id):
-
-    # Debemos conocer el usuario que se encuentra ahora activo en la web
-    # ya que cada uno dispone de un listado de recetas propio
-    user_actual = UserWeekfoods.objects.get(user=request.user)
-
-    # Eliminamos la receta indicada por el usuario
-    user_actual.recipe.remove(recipe_id)
-
-    return redirect('Recetas')
+class EliminarRecetaView(LoginRequiredMixin, View):
+    """
+    Vista basada en clases para eliminar una receta específica.
+    Requiere que el usuario esté autenticado.
+    """
+    def post(self, request, recipe_id):
+        
+        # Obtenemos al usuario actual
+        user_actual = UserWeekfoods.objects.get(user=request.user)
+        # Obtiene la receta a eliminar
+        recipe_to_remove = user_actual.recipe.get(id=recipe_id)
+        # Elimina la receta del usuario actual
+        user_actual.recipe.remove(recipe_to_remove)
+        #Añadimos mensaje de exito al usuario
+        messages.success(request, f'Receta {recipe_to_remove.name} eliminada con éxito')
+        
+        return redirect('Recetas')
+    
+        
+    
 
 # ----------------------------------------------------------------------------------------------------------- #
 # ----------------------------------------------------------------------------------------------------------- #
