@@ -3,7 +3,7 @@ from django import forms
 from WeekFoodsApp.models import Recipe, Ingredient
 
 
-class RecipeForms(ModelForm):
+class RecipeForms(forms.ModelForm):
 
     ingredients = forms.ModelMultipleChoiceField(queryset=Ingredient.objects.all(),
                                                  widget=forms.CheckboxSelectMultiple)
@@ -12,10 +12,10 @@ class RecipeForms(ModelForm):
         model = Recipe
         fields = ['name', 'elaboration',
                   'when_you_eat', 'calories', 'ingredients']
-        widgets = {'name': TextInput(attrs={'required': True, 'class': 'form-control'}),
-                   'elaboration': URLInput(attrs={'required': True, 'class': 'form-control'}),
-                   'when_you_eat': Select(attrs={'required': True}),
-                   'calories': NumberInput(attrs={'required': True, 'class': 'form-control'})}
+        widgets = {'name': TextInput(attrs={'class': 'form-control'}),
+                   'elaboration': URLInput(attrs={'class': 'form-control', 'placeholder': 'Insert URL de video de la receta'}),
+                   'when_you_eat': Select(),
+                   'calories': NumberInput(attrs={'class': 'form-control', 'placeholder': 'Ej: 350'}),}
 
 
 class IngredientForms(ModelForm):

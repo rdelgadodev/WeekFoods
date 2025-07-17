@@ -13,33 +13,25 @@
     </div>
     {% endfor %} {% endif %}
 
-    <!--Respuesta que aparecerá en pantalla cuando el usuario haya creado la receta-->
-    {% if 'valido' in request.GET %}
-
-    <h1 class="text-center fy-5">
-      ¡Receta creada satisfactoriamente. Gracias por su colaboración!
-    </h1>
-
-    {% endif %}
-
+ 
     <div class="row">
       <div class="col-sm-4">
         <label class="col-form-label mt-3" for="inputDefault">
           Nombre receta:
         </label>
-        {{form_recipe.name}}
+        {{form.name}}
       </div>
 
       <div class="col-sm-4">
         <label class="col-form-label mt-3" for="inputDefault">
           Elaboración:
         </label>
-        {{form_recipe.elaboration}}
+        {{form.elaboration}}
       </div>
 
       <div class="col-sm-4">
         <label class="col-form-label mt-3" for="inputDefault">Calorias</label>
-        {{form_recipe.calories}}
+        {{form.calories}}
       </div>
     </div>
 
@@ -48,7 +40,7 @@
         <label class="col-form-label m-3" for="inputDefault">
           Momento del día para comer:
         </label>
-        {{form_recipe.when_you_eat}}
+        {{form.when_you_eat}}
       </div>
     </div>
 
@@ -56,7 +48,7 @@
       <div class="col sm-6">
         <div class="form-group">
           <p class="fs-4">Ingredientes:</p>
-          <div class="col_ingredientes">{{form_recipe.ingredients}}</div>
+          <div class="col_ingredientes">{{form.ingredients}}</div>
         </div>
       </div>
       <div class="col sm-6 text-center btn_agregar">

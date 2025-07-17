@@ -1,12 +1,13 @@
 from django.shortcuts import render, HttpResponse, redirect
 from django.contrib.auth.decorators import login_required
+from django.urls import reverse_lazy
 from django.views import View
 from WeekFoodsApp.models import UserWeekfoods, Recipe, Ingredient
 from django.core.paginator import Paginator
 from .forms import RecipeForms, IngredientForms
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic import DetailView, ListView, DeleteView
+from django.views.generic import DetailView, ListView, DeleteView, CreateView
 
 
 
@@ -127,52 +128,78 @@ def compartir_receta(request, recipe_id):
 # ----------------------------------------------------------------------------------------------------------- #
 # ----------------------------------------------------------------------------------------------------------- #
 
-@login_required
-def crear_receta(request):
+class CreateRecetaView(LoginRequiredMixin, CreateView):
+    """
+    Vista basada en clases para crear una nueva receta.
+    Requiere que el usuario esté autenticado.
+    """
+    model = Recipe
+    template_name = 'Recetas/crear_receta.html'
+    form_class = RecipeForms
+    success_url = reverse_lazy('Recetas')
     
-    # Guardamos en una variable el formulario de receta creado en el archivo forms.py
-    form_recipe = RecipeForms() 
-
-    # Comprobamos si se ha rellenado el formulario y enviado datos
-    if request.method == 'POST':
-        recipe_form = RecipeForms(request.POST) # Recogemos los datos introducidos
-
-    # Debemos comprobar si el formulario es válido. 
-    # En caso que los datos sean correctos los almacenamos en variables.
+    def form_valid(self, form):
+        # Llama al método form_valid de la superclase (CreateView)
+        # para procesar el formulario y guardar el objeto Recipe.
+        response = super().form_valid(form)
+        
+        # Añade la receta recién creada al usuario actual.
+        user_actual = UserWeekfoods.objects.get(user=self.request.user)
+        user_actual.recipe.add(self.object)
+        
+        # Mensaje de éxito
+        messages.success(self.request, 'Receta creada con éxito')
+        
+        return response
     
-        if recipe_form.is_valid:
-            name = request.POST.get('name')
-            elaboration = request.POST.get('elaboration')
-            eating = request.POST.get('when_you_eat')
-            calories = request.POST.get('calories')
-            ingredients = request.POST.getlist('ingredients')
+    
 
-            # Antes de guardar la nueva receta comprobamos la variable "ingredients" no esta vacía.
-            if ingredients:
+# @login_required
+# def crear_receta(request):
+    
+#     # Guardamos en una variable el formulario de receta creado en el archivo forms.py
+#     form_recipe = RecipeForms() 
+
+#     # Comprobamos si se ha rellenado el formulario y enviado datos
+#     if request.method == 'POST':
+#         recipe_form = RecipeForms(request.POST) # Recogemos los datos introducidos
+
+#     # Debemos comprobar si el formulario es válido. 
+#     # En caso que los datos sean correctos los almacenamos en variables.
+    
+#         if recipe_form.is_valid:
+#             name = request.POST.get('name')
+#             elaboration = request.POST.get('elaboration')
+#             eating = request.POST.get('when_you_eat')
+#             calories = request.POST.get('calories')
+#             ingredients = request.POST.getlist('ingredients')
+
+#             # Antes de guardar la nueva receta comprobamos la variable "ingredients" no esta vacía.
+#             if ingredients:
             
 
-                # Creamos un objeto de la clase Recipe para que se guarde en la base de datos.
-                new_recipe = Recipe(name = name.capitalize(), 
-                                    elaboration = elaboration,
-                                    when_you_eat = eating,
-                                    calories = calories)
-                new_recipe.save()
-                new_recipe.ingredients.set(ingredients)
+#                 # Creamos un objeto de la clase Recipe para que se guarde en la base de datos.
+#                 new_recipe = Recipe(name = name.capitalize(), 
+#                                     elaboration = elaboration,
+#                                     when_you_eat = eating,
+#                                     calories = calories)
+#                 new_recipe.save()
+#                 new_recipe.ingredients.set(ingredients)
 
-                # Se añade esta receta al usuario.
-                user_actual = UserWeekfoods.objects.get(user=request.user)
-                user_actual.recipe.add(new_recipe)
+#                 # Se añade esta receta al usuario.
+#                 user_actual = UserWeekfoods.objects.get(user=request.user)
+#                 user_actual.recipe.add(new_recipe)
 
 
-                # Indicar al usuario que se ha guardado correctamente la receta.
-                return redirect ('/recetas/crear_receta/?valido')
+#                 # Indicar al usuario que se ha guardado correctamente la receta.
+#                 return redirect ('/recetas/crear_receta/?valido')
 
-            else:
-                messages.warning(request, 'Debe seleccionar los ingredientes')
+#             else:
+#                 messages.warning(request, 'Debe seleccionar los ingredientes')
                 
    
 
-    return render(request, 'Recetas/crear_receta.html', {'form_recipe':form_recipe})
+#     return render(request, 'Recetas/crear_receta.html', {'form_recipe':form_recipe})
 
 # ----------------------------------------------------------------------------------------------------------- #
 # ----------------------------------------------------------------------------------------------------------- #
