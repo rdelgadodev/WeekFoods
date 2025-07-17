@@ -5,41 +5,39 @@ from django.core.paginator import Paginator
 from .forms import RecipeForms, IngredientForms
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic import DetailView
+from django.views.generic import DetailView, ListView
 
 
-@login_required
-def recetas(request):
 
-    # Debemos conocer el usuario que se encuentra ahora activo en la web
-    # ya que cada uno dispone de un listado de recetas propio
-    user_actual = UserWeekfoods.objects.get(user=request.user)
-
-    # Guardamos en una variable todas las recetas de la base de datos.
-    recipe_list = user_actual.recipe.all()
-
-# ----------------------------------------------------------------------------------------------------------- #
-
-    # Código para hacer uso de la paginacion de Django:
-
-    # Obtener del url la página en la que nos encontramos actualmente.
-    actual_page = request.GET.get('page') or 1
-
-    # Decidimos cuantas receta por página queremos.
-    paginator = Paginator(recipe_list, 5)
-
-    # Para enviar al template las recetas que pertenecen a la página
-    recipes = paginator.get_page(actual_page)
-
-    # Casteamos el valor de 'actual_page' para que nos devuelva un valor entero, ya que puede ser un string
-    current_page = int(actual_page)
-
-    # Buscamos el número de páginas que tenemos para poder iterar con ella
-    pages = range(1, recipes.paginator.num_pages + 1)
+class RecetasListView(LoginRequiredMixin,ListView):
+    model = Recipe
+    template_name = 'Recetas/recetas.html'
+    context_object_name = 'recipes'
+    paginate_by = 5  # Número de recetas por página
     
-    return render(request, 'Recetas/recetas.html', {'recipes': recipes,
-                                                    'pages': pages,
-                                                    'current_page': current_page})
+    def get_queryset(self):
+   
+        # Obtiene el usuario actual y filtra las recetas asociadas a él
+        user_actual = UserWeekfoods.objects.get(user=self.request.user)
+        queryset = user_actual.recipe.all()
+        return queryset
+    
+    def get_context_data(self, **kwargs):
+        # Llama al método get_context_data de la superclase (ListView)
+        context = super().get_context_data(**kwargs)
+        
+        # Alias para la lista paginada de recetas, útil si el template espera 'page_object'
+        context['page_object'] = context[self.context_object_name]
+        
+        # 'paginator' es el objeto Paginator completo
+        context['paginator'] = context['page_obj'].paginator
+        
+        return context
+    
+    
+        
+
+
 
 # ----------------------------------------------------------------------------------------------------------- #
 # ----------------------------------------------------------------------------------------------------------- #
