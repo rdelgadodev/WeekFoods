@@ -19,7 +19,7 @@
     </div>
     {% endif %}
 
-    <table class="table table-dark fs-4 mt-3 tabla_compra">
+    <table class="table table-dark fs-4 mt-3">
       <thead>
         <tr>
           <th style="width: 45%">Receta</th>
@@ -44,21 +44,21 @@
             style="width: auto"
           >
            
-<form action="{% url 'Eliminar' recipe.pk %}" method="post" class="d-inline ms-2">
+<form action="{% url 'Eliminar' recipe.id %}" method="POST" class="d-inline ms-2">
     {% csrf_token %}
-    <button type="submit" class="btn btn-danger text-white btn-md rounded-pill" onclick="return confirm('¿Está seguro que desea eliminar la receta {{ recipe.name }}?');">
+    <button type="submit" class="btn btn-danger text-white btn-md rounded-pill fs-5" onclick="return confirm('¿Está seguro que desea eliminar la receta {{ recipe.name }}?');">
         Eliminar
     </button>
 </form>
 
-            <a
-              href="{% url 'Compartir Receta' recipe.id %}"
-              class="btn btn-dark text-center fs-5 mr-5"
-            >
-              <i class="fa-solid fa-share-from-square"></i>
-              Compartir
-            </a>
-          </td>
+<form action="{% url 'Compartir Receta' recipe.id %}" method="POST" class="d-inline ms-2">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-dark text-white btn-md rounded-pill fs-5" onclick="return confirm('¿Está seguro que desea compartir la receta {{ recipe.name }}?');"><i class="fa-solid fa-share-from-square"></i>
+       Compartir
+    </button>
+</form>
+
+</td>
         </tr>
         {%endfor%}
       </tbody>
@@ -116,6 +116,6 @@
       </a>
     </div>
   </div>
-</form>
+
 
 {% endblock %}

@@ -10,6 +10,6 @@ urlpatterns = [
     path('agregar_ingrediente/', views.agregar_ingrediente,
          name='Agregar Ingrediente'),
     path('compartir_receta/<int:recipe_id>',
-         views.compartir_receta, name='Compartir Receta'),
+         views.compartirReceta.as_view(), name='Compartir Receta'),
 
 ]

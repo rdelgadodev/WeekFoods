@@ -1,4 +1,6 @@
-{% extends 'WeekFoodsApp/base_usuario.html' %} {% load static %} 
+{% extends 'WeekFoodsApp/base_usuario.html' %} 
+{% load static %}
+
 {% block content %}
 <h1 class="my-4 text-center text-white">Creando receta...</h1>
 
@@ -20,6 +22,9 @@
           Nombre receta:
         </label>
         {{form.name}}
+        {% if form.name.errors%}
+        <div class="text-danger small">{{form.name.errors}}</div>
+        {% endif %}
       </div>
 
       <div class="col-sm-4">
@@ -27,11 +32,17 @@
           Elaboración:
         </label>
         {{form.elaboration}}
+        {% if form.elaboration.errors %}
+        <div class="text-danger small mt-2">{{form.elaboration.errors}}</div>
+        {% endif %}
       </div>
 
       <div class="col-sm-4">
         <label class="col-form-label mt-3" for="inputDefault">Calorias</label>
         {{form.calories}}
+        {% if form.calories.errors %}
+        <div class="text-danger small">{{form.calories.errors}}</div> 
+        {% endif %}
       </div>
     </div>
 
@@ -41,27 +52,31 @@
           Momento del día para comer:
         </label>
         {{form.when_you_eat}}
+        {% if form.when_you_eat.errors %}
+        <div class="text-danger small">{{form.when_you_eat.errors}}</div>
+        {% endif %}
       </div>
     </div>
 
     <div class="row">
-      <div class="col sm-6">
+      <div class="col-sm-12">
         <div class="form-group">
           <p class="fs-4">Ingredientes:</p>
-          <div class="col_ingredientes">{{form.ingredients}}</div>
+
+           <div class="mb-3">
+            <input type="text" id="ingredient-search" class="form-control bg-white text-black border-secondary fs-4" placeholder="Buscar ingredientes...">
+          </div>
+
+         {{form.ingredients}}
+          {% if form.ingredients.errors %}
+          <div class="text-danger small">{{form.ingredients.errors}}</div>
+          {% endif %}
         </div>
-      </div>
-      <div class="col sm-6 text-center btn_agregar">
-        <a
-          href="{% url 'Agregar Ingrediente' %}"
-          class="btn btn-dark text-center fs-4"
-        >
-          Añadir ingrediente
-        </a>
       </div>
     </div>
 
     <div class="container-fluid mt-4 pb-4">
+      <a href="{% url 'Agregar Ingrediente' %}" class="btn btn-primary btn-lg">Añadir otros ingredientes</a>
       <input type="submit" class="btn btn-primary btn-lg" value="Guardar" />
       <a href="{% url 'Recetas' %}" class="btn btn-primary btn-lg">Cancelar</a>
     </div>

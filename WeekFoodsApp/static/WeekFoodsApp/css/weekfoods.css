@@ -131,10 +131,59 @@ body {
     place-items: center;
 }
 
-.col_ingredientes {
-    height: 200px;
-    overflow: auto;
+.custom-checkbox-button-list input[type='checkbox'] {
+    display: none;
+}
 
+.custom-checkbox-button-list label {
+    display: inline-block;
+    /* Para que se pongan uno al lado del otro */
+    padding: 0.5rem 1rem;
+    margin-bottom: 0.5rem;
+    /* Espacio entre filas si se envuelven */
+    border: 1px solid #6c757d;
+    /* Borde gris de Bootstrap */
+    border-radius: 0.5rem;
+    /* Bordes redondeados */
+    cursor: pointer;
+    background-color: #343a40;
+    /* Fondo oscuro */
+    color: #fff;
+    /* Texto blanco */
+    transition: all 0.2s ease-in-out;
+    /* Transición suave para hover/active */
+    font-size: 1.2rem;
+    /* Tamaño de fuente ligeramente más pequeño */
+}
+
+/* Estilo cuando el checkbox está seleccionado */
+.custom-checkbox-button-list label:has(input[type='checkbox']:checked) {
+    background-color: #fff;
+    color: #343a40;
+}
+
+
+/* Estilo al pasar el ratón por encima (hover) */
+.custom-checkbox-button-list label:hover {
+    background-color: #495057;
+    /* Un gris un poco más claro */
+    border-color: #495057;
+}
+
+
+/* Estilo para el DIV principal generado por Django para los checkboxes */
+/* Este div ahora es el contenedor flexbox para los divs individuales de checkbox */
+.custom-checkbox-button-list {
+    display: flex;
+    /* Habilita Flexbox para los elementos hijos (los divs de checkbox) */
+    flex-wrap: wrap;
+    /* Permite que los elementos se envuelvan a la siguiente línea */
+    gap: 0.5rem;
+    /* Espacio entre los elementos flex */
+    padding: 0;
+    /* Elimina el padding por defecto */
+    margin: 0;
+    /* Elimina el margen por defecto */
 }
 
 .col_ingredientes label {
@@ -225,9 +274,7 @@ body {
 
 }
 
-.tabla_compra {
-    opacity: 0.8;
-}
+
 
 .total_price {
     background-color: black;

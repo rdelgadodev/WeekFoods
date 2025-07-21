@@ -10,35 +10,30 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import DetailView, ListView, DeleteView, CreateView
 
 
-
-class RecetasListView(LoginRequiredMixin,ListView):
+class RecetasListView(LoginRequiredMixin, ListView):
     model = Recipe
     template_name = 'Recetas/recetas.html'
     context_object_name = 'recipes'
     paginate_by = 5  # Número de recetas por página
-    
+
     def get_queryset(self):
-   
+
         # Obtiene el usuario actual y filtra las recetas asociadas a él
         user_actual = UserWeekfoods.objects.get(user=self.request.user)
         queryset = user_actual.recipe.all()
         return queryset
-    
+
     def get_context_data(self, **kwargs):
         # Llama al método get_context_data de la superclase (ListView)
         context = super().get_context_data(**kwargs)
-        
+
         # Alias para la lista paginada de recetas, útil si el template espera 'page_object'
         context['page_object'] = context[self.context_object_name]
-        
+
         # 'paginator' es el objeto Paginator completo
         context['paginator'] = context['page_obj'].paginator
-        
-        return context
-    
-    
-        
 
+        return context
 
 
 # ----------------------------------------------------------------------------------------------------------- #
@@ -49,21 +44,21 @@ class EliminarRecetaView(LoginRequiredMixin, View):
     Vista basada en clases para eliminar una receta específica.
     Requiere que el usuario esté autenticado.
     """
-    def post(self, request, recipe_id):
-        
+
+    def post(self, request, recipe_id, *args, **kwargs):
+
         # Obtenemos al usuario actual
         user_actual = UserWeekfoods.objects.get(user=request.user)
         # Obtiene la receta a eliminar
         recipe_to_remove = user_actual.recipe.get(id=recipe_id)
         # Elimina la receta del usuario actual
         user_actual.recipe.remove(recipe_to_remove)
-        #Añadimos mensaje de exito al usuario
-        messages.success(request, f'Receta {recipe_to_remove.name} eliminada con éxito')
-        
+        # Añadimos mensaje de exito al usuario
+        messages.success(
+            request, f'Receta {recipe_to_remove.name} eliminada con éxito')
+
         return redirect('Recetas')
-    
-        
-    
+
 
 # ----------------------------------------------------------------------------------------------------------- #
 # ----------------------------------------------------------------------------------------------------------- #
@@ -72,61 +67,81 @@ class EliminarRecetaView(LoginRequiredMixin, View):
     Vista basada en clases para mostrar los detalles de una receta específica.
     Requiere que el usuario esté autenticado.
     """
+
+
 class VerRecetaDetail(LoginRequiredMixin, DetailView):
-     # Define el modelo del cual esta DetailView obtendrá un único objeto.
+    # Define el modelo del cual esta DetailView obtendrá un único objeto.
     model = Recipe
-     # Define la plantilla HTML que esta vista renderizará.
+    # Define la plantilla HTML que esta vista renderizará.
     template_name = 'Recetas/ver_receta.html'
     # Define el nombre de la variable de contexto que contendrá el objeto Recipe
     # principal en la plantilla. Así, en el template, será {{ recipe_select }}.
     context_object_name = 'recipe_select'
-    
-    
+
     """
         Preparamos el diccionario de contexto que se pasará a la plantilla.
         Calcular el precio total de los ingredientes de la receta seleccionada
         y añadir los ingredientes y el precio al contexto.
         """
+
     def get_context_data(self, **kwargs):
         # Llama al método get_context_data de la superclase (DetailView)
         # para obtener el contexto base que ya proporciona Django.
         # Este contexto ya incluirá 'recipe_select' (el objeto Recipe principal).
         context = super().get_context_data(**kwargs)
-        
-        
+
         # El objeto Recipe principal ya está disponible como context['recipe_select']
         # De aqui sacaremos todos los ingredientes y el precio total.
         recipe_select = context['recipe_select']
-        
-        #Ingredientes
+
+        # Ingredientes
         ingredient_recipe_select = recipe_select.ingredients.all()
-        
-        #Calcular precio total
+
+        # Calcular precio total
         total_price = 0
         for ing in ingredient_recipe_select:
             total_price += ing.price
-            
+
          # Añadir los contextos adicionales al diccionario 'context'.
         context['ingredient_recipe_select'] = ingredient_recipe_select
         context['total_price'] = round(total_price, 2)
-        
+
         return context
-        
-        
 
-@login_required
-def compartir_receta(request, recipe_id):
 
-    share_recipe = Recipe.objects.get(id=recipe_id)
+class compartirReceta(LoginRequiredMixin, View):
+    """
+    Vista basada en clases para compartir una receta con todos los usuarios.
+    Requiere que el usuario esté autenticado.
+    """
 
-    total_user = UserWeekfoods.objects.all()
-    for u in total_user:
-        u.recipe.add(share_recipe)
+    def post(self, request, recipe_id, *args, **kwargs):
+        # Obtiene la receta a compartir
+        share_recipe = Recipe.objects.get(id=recipe_id)
 
-    return redirect('/recetas/?valido')
+        # Obtiene todos los usuarios registrados
+        total_user = UserWeekfoods.objects.all()
+        for u in total_user:
+            u.recipe.add(share_recipe)
+
+        messages.success(request, 'Receta compartida con éxito')
+    
+        return redirect('Recetas')
+
+# @login_required
+# def compartir_receta(request, recipe_id):
+
+#     share_recipe = Recipe.objects.get(id=recipe_id)
+
+#     total_user = UserWeekfoods.objects.all()
+#     for u in total_user:
+#         u.recipe.add(share_recipe)
+
+#     return redirect('/recetas/?valido')
 
 # ----------------------------------------------------------------------------------------------------------- #
 # ----------------------------------------------------------------------------------------------------------- #
+
 
 class CreateRecetaView(LoginRequiredMixin, CreateView):
     """
@@ -137,69 +152,21 @@ class CreateRecetaView(LoginRequiredMixin, CreateView):
     template_name = 'Recetas/crear_receta.html'
     form_class = RecipeForms
     success_url = reverse_lazy('Recetas')
-    
+
     def form_valid(self, form):
         # Llama al método form_valid de la superclase (CreateView)
         # para procesar el formulario y guardar el objeto Recipe.
         response = super().form_valid(form)
-        
+
         # Añade la receta recién creada al usuario actual.
         user_actual = UserWeekfoods.objects.get(user=self.request.user)
         user_actual.recipe.add(self.object)
-        
+
         # Mensaje de éxito
         messages.success(self.request, 'Receta creada con éxito')
-        
+
         return response
-    
-    
 
-# @login_required
-# def crear_receta(request):
-    
-#     # Guardamos en una variable el formulario de receta creado en el archivo forms.py
-#     form_recipe = RecipeForms() 
-
-#     # Comprobamos si se ha rellenado el formulario y enviado datos
-#     if request.method == 'POST':
-#         recipe_form = RecipeForms(request.POST) # Recogemos los datos introducidos
-
-#     # Debemos comprobar si el formulario es válido. 
-#     # En caso que los datos sean correctos los almacenamos en variables.
-    
-#         if recipe_form.is_valid:
-#             name = request.POST.get('name')
-#             elaboration = request.POST.get('elaboration')
-#             eating = request.POST.get('when_you_eat')
-#             calories = request.POST.get('calories')
-#             ingredients = request.POST.getlist('ingredients')
-
-#             # Antes de guardar la nueva receta comprobamos la variable "ingredients" no esta vacía.
-#             if ingredients:
-            
-
-#                 # Creamos un objeto de la clase Recipe para que se guarde en la base de datos.
-#                 new_recipe = Recipe(name = name.capitalize(), 
-#                                     elaboration = elaboration,
-#                                     when_you_eat = eating,
-#                                     calories = calories)
-#                 new_recipe.save()
-#                 new_recipe.ingredients.set(ingredients)
-
-#                 # Se añade esta receta al usuario.
-#                 user_actual = UserWeekfoods.objects.get(user=request.user)
-#                 user_actual.recipe.add(new_recipe)
-
-
-#                 # Indicar al usuario que se ha guardado correctamente la receta.
-#                 return redirect ('/recetas/crear_receta/?valido')
-
-#             else:
-#                 messages.warning(request, 'Debe seleccionar los ingredientes')
-                
-   
-
-#     return render(request, 'Recetas/crear_receta.html', {'form_recipe':form_recipe})
 
 # ----------------------------------------------------------------------------------------------------------- #
 # ----------------------------------------------------------------------------------------------------------- #
@@ -211,7 +178,7 @@ def agregar_ingrediente(request):
     form_ingredient = IngredientForms()
 
     if request.method == 'POST':
-        form_ingredient = IngredientForms() # Recogemos los datos introducidos
+        form_ingredient = IngredientForms()  # Recogemos los datos introducidos
 
         if form_ingredient.is_valid:
             name = request.POST.get('name_ingredient')
@@ -219,19 +186,17 @@ def agregar_ingrediente(request):
             price = request.POST.get('price')
 
             # Comprobamos que el ingrediente no exista en la base de datos:
-            if Ingredient.objects.filter(name_ingredient__icontains = name):
-                messages.warning(request, 'Este ingrediente ya esta creado. Por favor, vuelva a la receta y filtre su búsqueda')
-                
+            if Ingredient.objects.filter(name_ingredient__icontains=name):
+                messages.warning(
+                    request, 'Este ingrediente ya esta creado. Por favor, vuelva a la receta y filtre su búsqueda')
 
             else:
 
                 # Creamos un nuevo ingrediente con los datos facilitados por el usuario
-                new_ingredient = Ingredient.objects.create(name_ingredient = name.capitalize(), type_food = type_food, price = price)
+                new_ingredient = Ingredient.objects.create(
+                    name_ingredient=name.capitalize(), type_food=type_food, price=price)
 
                 # Indicar al usuario que se ha guardado correctamente.
                 return redirect('/recetas/agregar_ingrediente/?valido')
 
-        
-    
-    return render(request, 'Recetas/agregar_ingrediente.html', {'form_ingredient':form_ingredient})
-    
+    return render(request, 'Recetas/agregar_ingrediente.html', {'form_ingredient': form_ingredient})
