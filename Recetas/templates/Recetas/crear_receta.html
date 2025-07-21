@@ -5,7 +5,7 @@
 <h1 class="my-4 text-center text-white">Creando receta...</h1>
 
 <div class="container bg-dark text-white fs-4">
-  <form action="{% url 'Crear Receta' %}" method="POST">
+  <form action="{% url 'Crear Receta' %}" method="POST" class='pt-2'>
     {% csrf_token %}
 
     <!--Mensaje de error en caso que no haya seleccionado ningún ingrediente-->

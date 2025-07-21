@@ -128,16 +128,6 @@ class compartirReceta(LoginRequiredMixin, View):
     
         return redirect('Recetas')
 
-# @login_required
-# def compartir_receta(request, recipe_id):
-
-#     share_recipe = Recipe.objects.get(id=recipe_id)
-
-#     total_user = UserWeekfoods.objects.all()
-#     for u in total_user:
-#         u.recipe.add(share_recipe)
-
-#     return redirect('/recetas/?valido')
 
 # ----------------------------------------------------------------------------------------------------------- #
 # ----------------------------------------------------------------------------------------------------------- #
@@ -171,32 +161,22 @@ class CreateRecetaView(LoginRequiredMixin, CreateView):
 # ----------------------------------------------------------------------------------------------------------- #
 # ----------------------------------------------------------------------------------------------------------- #
 
-@login_required
-def agregar_ingrediente(request):
 
-    # Guardamos en una variable el formulario de ingrediente creado en el archivo forms.py
-    form_ingredient = IngredientForms()
+class IngredientCreateView(LoginRequiredMixin, CreateView):
+    
+    model = Ingredient
+    template_name = 'Recetas/agregar_ingrediente.html'
+    form_class = IngredientForms
+    success_url = reverse_lazy('Agregar Ingrediente')
+    
+    def form_valid(self, form):
+        # Llama al método form_valid de la superclase (CreateView)
+        # para procesar el formulario y guardar el objeto Ingredient.
+        response = super().form_valid(form)
+                  
+        # Mensaje de éxito
+        messages.success(self.request,f'{self.object.name_ingredient} creado con éxito. Pulse "Volver a la receta" o añada mas ingredientes')
+        return response
 
-    if request.method == 'POST':
-        form_ingredient = IngredientForms()  # Recogemos los datos introducidos
+        
 
-        if form_ingredient.is_valid:
-            name = request.POST.get('name_ingredient')
-            type_food = request.POST.get('type_food')
-            price = request.POST.get('price')
-
-            # Comprobamos que el ingrediente no exista en la base de datos:
-            if Ingredient.objects.filter(name_ingredient__icontains=name):
-                messages.warning(
-                    request, 'Este ingrediente ya esta creado. Por favor, vuelva a la receta y filtre su búsqueda')
-
-            else:
-
-                # Creamos un nuevo ingrediente con los datos facilitados por el usuario
-                new_ingredient = Ingredient.objects.create(
-                    name_ingredient=name.capitalize(), type_food=type_food, price=price)
-
-                # Indicar al usuario que se ha guardado correctamente.
-                return redirect('/recetas/agregar_ingrediente/?valido')
-
-    return render(request, 'Recetas/agregar_ingrediente.html', {'form_ingredient': form_ingredient})
