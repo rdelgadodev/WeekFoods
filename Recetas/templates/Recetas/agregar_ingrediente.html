@@ -8,8 +8,9 @@
 
     <!--Mensaje de error en caso que el ingrediente que intente añadir ya figura en la base de datos-->
     {%if messages %} {% for msg in messages %}
-    <div class="alert alert-{{msg.tags}} text-center mt-3">
-      <h2 class="h2 ml-2">¡{{msg}}!</h2>
+    <div class="alert alert-{{msg.tags}} alert-dismissible fade show text-center mt-3">
+       <p class='mb-0 text-center fs-3'>{{msg}}</p>
+      <button type="button" class='btn-close' data-bs-dismiss='alert' aria-label="Cerrar"></button>
     </div>
     {% endfor %} {% endif %}
 

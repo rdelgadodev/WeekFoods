@@ -3,302 +3,287 @@ from WeekFoodsApp.models import Recipe, UserWeekfoods
 from .models import WeeklyMenu
 from django.contrib import messages
 import random
-from django.contrib.auth.decorators import login_required
+from django.views.generic import TemplateView
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 
-@login_required
-def menu_semanal(request):
+class MenuSemanalView(LoginRequiredMixin, TemplateView):
 
-    # Se va a elaborar un menú semanal para el usuario. Estas son las opciones que ofrecemos:
-    # Opcion 1. Que el usuario escoja las recetas que quiera de toda la semana y guarde ese menu.
+    template_name = 'MenuSemanal/menu_semanal.html'
 
-    # Opción 2.- Que a través de los filtro de los que dispone, le ofrecemos un menu semanal completo.
+    def _select_dinner(self, user_active):
 
-    # Opción 3.- Una vez usado los filtros, tiene la opcion de poder eliminar una o varias recetas
-    # y escoger otra en su lugar.
+        # Almacenamos todas las recetas del usuario filtrado por when_you_eat
+        recipe_dinner = user_active.recipe.filter(when_you_eat='Comida')
 
-    # Opción 4. Conocer cual es el coste de elaborar ese menu semanal escogido u ofrecido.
+        if recipe_dinner:
+            # Escogemos una receta al azar
+            random_recipe_dinner = random.choice(recipe_dinner)
+            # Devolvemos esa receta
+            return random_recipe_dinner
+        else:
+            return None
 
-    # ----------------------------------------------------------------------------------------------------------- #
-    # ----------------------------------------------------------------------------------------------------------- #
+    def _select_supper(self, user_active):
 
-    # OPCION 1.
+        # Almacenamos todas las recetas del usuario filtrado por when_you_eat
+        recipe_supper = user_active.recipe.filter(when_you_eat='Cena')
 
-    # Cada usuario dispone de su propio listado de recetas.
-    # Debemos almacenar en una variable el objeto usuario para conocer su listado.
-    user_active = UserWeekfoods.objects.get(user=request.user)
-
-    # Existen dos posibilidades:
-    # Posibilidad 1. El usuario todavía no dispone de un menú semanal guardado en la tabla WeeklyMenu,
-    # por lo que debemos ofrecer al usuario un desplegable para que escoja dos recetas para cada dia (comida y cena).
-
-    # Posibilidad 2. El usuario ya tiene un menu semanal guardado y debemos ofrecerselo por pantalla y
-    # que pueda cambiar las recetas que crea oportunas.
-
-    # POSIBILIDAD 1.
-    # Debemos ofrecer al usuario la posibilidad de escoger para cada día (comida y cena) la receta que quiere.
-    # Tenemos que pasar por contexto 2 listados uno para las recetas de comidas y otro de cenas.
-    recetas_dia = user_active.recipe.filter(when_you_eat='Comida')
-    recetas_noche = user_active.recipe.filter(when_you_eat='Cena')
-
-    # POSIBILIDAD 2.
-    # pasaremos por contexto los valores de la tabla WeeklyMenu que serán las recetas de la semana
-    # que se mostrarán por pantalla. Ordenamos por id para evitar desorden
-    recetas = WeeklyMenu.objects.filter(
-        user_active=user_active).order_by('id')
-
-
-# ----------------------------------------------------------------------------------------------------------- #
-# ----------------------------------------------------------------------------------------------------------- #
-
-    # OPCIÓN 2. Uso del filtro.
-
-    # Creamos 5 funciones para cuando se clicle sobre la opción filtrar:
-        # select_dinner
-        # select_supper
-        # check_calories
-        # check_price
-        # use_filter
-
-    # Función para escoger un plato para la comida.
-    def select_dinner(user_active):
-
-        # Almacenamos todas la recetas filtrando por comidas
-        all_recipes_dinner = user_active.recipe.filter(when_you_eat='Comida')
-
-        # Escogemos una receta aleatoria para comer
-        random_recipe_dinner = random.choice(all_recipes_dinner)
-
-        return random_recipe_dinner
-
-    # Función para escoger una receta para la cena.
-    def select_supper(user_active):
-
-        # Almacenamos todas la recetas filtrando por cena
-        all_recipes_supper = user_active.recipe.filter(when_you_eat='Cena')
-
-        # Escogemos una receta aleatoria para cenar
-        random_recipe_supper = random.choice(all_recipes_supper)
-
-        return random_recipe_supper
-
-    # Función para comprobar que las calorias diarias indicadas por el usuario no se exceden.
-    def check_calories(max_calories_diary, random_recipe_dinner, random_recipe_supper):
-
-        # Si el resultado de restar al máximo de calorias indicado por el usuario
-        # las calorias de las recetas es mayor o igual a 0,
-        # cumple el requisito de las calorias máximas.
-        if max_calories_diary - (random_recipe_dinner.calories + random_recipe_supper.calories) >= 0:
+        # Escogemos una receta al azar
+        if recipe_supper:
+            random_recipe_supper = random.choice(recipe_supper)
+            # Devolvemos esa receta
+            return random_recipe_supper
+        else:
+            return None
+    
+    def _check_calories(self, max_calories, recipe_dinner, recipe_supper):
+        
+        #Verificamos que las recetas no estén vacias
+        if not recipe_dinner or not recipe_supper:
+            return False
+        
+        
+        # Sumamos el total de calorias de ambas recetas seleccionadas al azar
+        # Si la suma es mas pequeña que el total de calorias que ha puesto el usuario devuelve True.
+        total_calories = recipe_dinner.calories + recipe_supper.calories
+        if total_calories <= max_calories:
             return True
-
-    # Función para comprobar que el presupuesto diario indicado por el usuario no se exceda.
-    def check_price(max_money, random_recipe_dinner, random_recipe_supper):
-
-        # Debemos ir sumando el precio de cada uno de los ingredientes de la receta escogida:
-        total_price = 0
-
-        # Creamos variables donde se almacenan todos los ingredientes de la receta escogida aleatoriamente.
-        ing_dinner = random_recipe_dinner.ingredients.all()
-        ing_supper = random_recipe_supper.ingredients.all()
-
-        # Recorremos los objetos ingredientes para hallar los precios de cada uno.
-        for p in ing_dinner:
-            total_price += p.price
-        for p in ing_supper:
-            total_price += p.price
-
-        # Si el resultado de restar el máximo de gasto por el precio de la receta es mayor o igual a 0,
-        # cumple el requisito del gasto máximo.
-        if max_money >= total_price:
+        
+        return False
+    
+    def _check_price(self, max_waste, recipe_dinner, recipe_supper):
+        
+        #Verificamos que las recetas no estén vacias
+        if not recipe_dinner or not recipe_supper:
+            return False
+        
+        # Creamos una variable donde almacenaremos el total del coste de las recetas seleccionadas al azar
+        total_waste = 0
+        
+        # Debemos acceder a los ingredientes de cada receta para saber su precio y sumarlo.
+        ingredients_dinner = recipe_dinner.ingredients.all()
+        ingredients_supper = recipe_supper.ingredients.all()
+        
+        #Recorremos cada uno de los ingredientes para saber sus precios y sumarlos en total_waste
+        for ing in ingredients_dinner:
+            total_waste += ing.price
+            
+        for ing in ingredients_supper:
+            total_waste += ing.price
+        
+        #Comprobamos si supera el mínimo establecido por el usuario.
+        if total_waste <= max_waste:
             return True
+        
+        return False
+    
 
-    # Función para usar la opcion filtro cuando el usuario lo requiera.
-    def use_filter(user_active, max_calories_diary, max_money):
+    def _use_filter(self, user_active, max_calories, max_waste):
+        
+        #Creamos una lista donde almacenaremos todas las recetas que devolveremos
+        list_recipes = list()
+        
+        #Contador con número de intentos para buscar las recetas
+        count_try = 0
+        
+        #El total de recetas deben ser 10, creamos un bucle while para que vaya rellenando la lista hasta que se llegue a ese total.
+        while len(list_recipes) < 10:
+            
+            #Sumamos cada vez que inicia el bucle un intento
+            count_try += 1
+            
+            #Condicional para cuando llegue a 1000 intentos
+            if count_try == 1000:
+                break
+            
+            #Generamos una receta para cada momento
+            recipe_dinner = self._select_dinner(user_active)
+            recipe_supper = self._select_supper(user_active)
+            
+            #Comprobamos que no esten vacios las recetas
+            if not recipe_dinner or not recipe_supper:
+                break
+            
+            #Comprobamos que ambas recetas cumplen con los requisitos que indica el usuario.
+            if self._check_calories(max_calories, recipe_dinner, recipe_supper) and self._check_price(max_waste, recipe_dinner, recipe_supper):
+                if recipe_dinner not in list_recipes and recipe_supper not in list_recipes:
+                    list_recipes.append(recipe_dinner)
+                    list_recipes.append(recipe_supper)
+                
+                
+        return list_recipes
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
 
-        # Creamos una lista donde almacenamos todas las recetas que mostraremos por pantalla.
-        showlist_recipes = list()
+        # Obtenemos el usuario activo
+        user_active = UserWeekfoods.objects.get(user=self.request.user)
 
-        # Debemos seleccionar 10 recetas para toda la semana.
-        while len(showlist_recipes) < 10:
+        # Obtenemos las recetas de comida y cena del usuario
+        recetas_dia = user_active.recipe.filter(when_you_eat='Comida')
+        recetas_noche = user_active.recipe.filter(when_you_eat='Cena')
+        
+        #Debemos comprobar que el usuario tiene almacenados mínimo 5 recetas de cada(comida y cena) para que se pueda generar un menú, hacer uso del filtrado y modficado del menú semanal.
+        has_enough_recipes = True
+        if recetas_dia.count() < 5 or recetas_noche.count() < 5:
+            has_enough_recipes = False
+            
+        context['minimo'] = has_enough_recipes
 
-            # Debemos seleccionar 2 recetas diarias (comida y cena).
-            # Llamamos a las funciones.
-            recipe_dinner = select_dinner(user_active)
-            recipe_supper = select_supper(user_active)
+        # Obtenemos las recetas del menú semanal del usuario
+        recetas = WeeklyMenu.objects.filter(
+            user_active=user_active).order_by('id')
+        
+        context['recetas'] = recetas
+        context['recetas_dia'] = recetas_dia
+        context['recetas_noche'] = recetas_noche
+        
+        # Recuperamos el estado de los checkboxes de la sesión. Si no existe, usamos un diccionario vacío.
+        context['check_recipes'] = self.request.session.get('check_recipes', {})
 
-            # Llamamos a las funciones que verifican que las recetas escogidas cumplen con los requisitos de calorias y presupuesto.
-            # Solo se llamarán a esas funciones si el usuario ha introducidos datos.
-            # Para poder llamar a dicha funcion, primero debemos comprobar que no se han escogido con anterioridad estas recetas.
-            if recipe_dinner not in showlist_recipes and recipe_supper not in showlist_recipes:
+        return context
 
-                if max_calories_diary > 0:
-                    verify_calories = check_calories(
-                        max_calories_diary, recipe_dinner, recipe_supper)
-                elif max_calories_diary == 0:
-                    verify_calories = True
+    # Tenemos que manejar 4 posibilidades de envío de información:
 
-                if max_money > 0:
-                    verify_price = check_price(
-                        max_money, recipe_dinner, recipe_supper)
-                elif max_money == 0:
-                    verify_price = True
+    def post(self, request, *args, **kwargs):
 
-                if verify_calories and verify_price:
-                    showlist_recipes.append(recipe_dinner)
-                    showlist_recipes.append(recipe_supper)
+        # Almacenamos en una variable el usuario actual
+        user_active = UserWeekfoods.objects.get(user=self.request.user)
 
-        return showlist_recipes
+        # Almecenamos en una variable todas las recetas que tiene la base de datos de WeeklyMenu
+        all_recipes_weekly = WeeklyMenu.objects.filter(
+            user_active=user_active).order_by('id')
 
-
-# ----------------------------------------------------------------------------------------------------------- #
-# ----------------------------------------------------------------------------------------------------------- #
-
-    # Comprobamos si se ha hecho uso de algún input.
-    if request.method == 'POST':
-
-        # Input filtro
+        # Primera opción que el usuario clique en filtrar
         if request.POST.get('filtro'):
 
-            # Al pulsar en filtrar debemos facilitar al usuario el menú semanal.
-            # Actualmente las recetas de este menú se deberían encontrar en la tabla WeeklyMenu.
-            # Pueden ocurrir dos cosas:
-                # 1.- La tabla se encuentre vacía porque es la primera vez que se hace uso del filtro o se ha eliminado todo.
-                # 2.- La tabla contiene recetas de un menú semanal ofrecido anteriormente.
+            # Capturamos los valores introducidos en los inputs de calorias y precio
+            max_calories = int(request.POST.get('calorias', 1600))
+            max_waste = int(request.POST.get('gasto', 10))
 
-            # Debemos comprobar que se han introducido datos correctos.
-            # Primer paso es almacenar en dos variables las calorias y gasto máximo indicado por el usuario.
-            # Deberemos hacer uso de un condicion en caso que el usuario no haya indicado ninguna cantidad.
-            # Se indicará valor 0 en ese caso.
+            # Para poder hacer uso del filtrado, debemos comprobar que las cantidades que se han introducido sean correctas.
+            # Iniciamos el True una variable que cambiará a false si los datos introducidos no son los adecuados.
+            correct_values = True
 
-            max_calories_diary = (request.POST.get('calorias'))
+            # Comprobamos que se introducen las cantidades correctas antes de continuar, enviando mensajes al usuario
+            if max_calories < 1600:
+                messages.warning(
+                    self.request, 'Las calorias deben ser mayor o igual a 1600')
+                correct_values = False
+            if max_waste < 10:
+                messages.warning(
+                    self.request, 'El gasto semanal debe ser superior o igual a 10')
+                correct_values = False
 
-            max_money = (request.POST.get('gasto'))
+            # Si esta todo correcto, procedemos a filtrar las recetas que deben aparecer en el menu.
+            if correct_values:
 
-            if not max_calories_diary:
+                # Llamamos al metodo _use_filter para modificar el WeeklyMenu del usuario actual
+                new_menu = self._use_filter(
+                    user_active, max_calories, max_waste)
                 
-                max_calories_diary = 0
+                #Comprobamos que se ha devuelto 10 recetas dentro del menú.
+                if len(new_menu) < 10:
+                    messages.warning(self.request, 'No se pudo generar un menú semanal completo con los filtros actuales o no hay suficientes combinaciones de recetas. Intente ajustar los filtros o añadir más recetas a su listado')
+                    if 'check_recipes' in self.request.session:
+                        del self.request.session['check_recipes']
+                    return redirect ('Menu Semanal')
 
-            if not max_money:
-                max_money = 0
+                # Eliminamos todos los objetos que actualmente estan en WeeklyMenu del usuario
+                all_recipes_weekly.delete()
 
-            # Saldrá mansaje de error en caso que el usuario haya introducido un número negativo.
-            if int(max_calories_diary) < 0 or int(max_money) < 0:
-                messages.warning(request, 'Por favor, introduzca un valor dentro del rango indicado o deje en blanco')
-            # Saldrá mansaje de error en caso que el usuario introduzca valores por debajo de los exigidos.
-            elif (int(max_calories_diary) < 1600 and int(max_calories_diary) > 0) or (int(max_money) < 10 and int(max_money) > 0):
-                messages.warning(request, 'Por favor, introduzca un valor dentro del rango indicado o dejelo en blanco')
-            else:
-
-                # Llamamos a la función creada anteriormente que nos devuelve un listado de recetas.
-                showlist_recipes = use_filter(user_active, int(max_calories_diary), int(max_money))
-
-                # En el supuesto 2, tenemos que borrar los datos que contiene la tabla WeeklyMenu.
-                recetas.delete()
-
-                # Creamos tantos objetos de la clase WeeklyMenu como recetas existen en la lista anterior.
-                # Estos objetos se visualizaran en el template.
-                for recipe in showlist_recipes:
-                    WeeklyMenu.objects.create(
+                # Creamos el nuevo menu, debemos iterar todas las recetas que hemos obtenido del filtrado
+                for recipe in new_menu:
+                    new_week_menu = WeeklyMenu(
                         user_active=user_active, recipe_sug=recipe)
+                    new_week_menu.save()
 
-            return render(request, 'MenuSemanal/menu_semanal.html', {'recetas': recetas,
-                                                                     'recetas_dia': recetas_dia,
-                                                                     'recetas_noche': recetas_noche,})
+                messages.success(
+                    self.request, 'El menú se ha creado con éxito')
+                
+                if 'check_recipes' in self.request.session:
+                    del self.request.session['check_recipes']
 
-# ----------------------------------------------------------------------------------------------------------- #
+                return redirect('Menu Semanal')
 
-        # Input guardar.
-        if request.POST.get('guardar'):
-
-            # En este punto existen dos opciones:
-                # Opción A. Ha seleccionado todas las recetas del menú.
-                # Opción B. Ha modificado solo algunas de las recetas tras haber usado la opción filtro.
-
-            # Sea cual sea la opción creamos una lista donde almacenamos el valor de cada select
+            
+        elif request.POST.get('guardar'):
+            
+            # Creamos una lista donde almacenamos el valor de cada select
             # para saber la receta seleccionada para que forme parte del menu semanal.
 
             recipes_select = [request.POST.get('recipe_dinner_monday'),
-                              request.POST.get('recipe_supper_monday'),
-                              request.POST.get('recipe_dinner_tuesday'),
-                              request.POST.get('recipe_supper_tuesday'),
-                              request.POST.get('recipe_dinner_wednesday'),
-                              request.POST.get('recipe_supper_wednesday'),
-                              request.POST.get('recipe_dinner_thursday'),
-                              request.POST.get('recipe_supper_thursday'),
-                              request.POST.get('recipe_dinner_friday'),
-                              request.POST.get('recipe_supper_friday')]
+                                request.POST.get('recipe_supper_monday'),
+                                request.POST.get('recipe_dinner_tuesday'),
+                                request.POST.get('recipe_supper_tuesday'),
+                                request.POST.get('recipe_dinner_wednesday'),
+                                request.POST.get('recipe_supper_wednesday'),
+                                request.POST.get('recipe_dinner_thursday'),
+                                request.POST.get('recipe_supper_thursday'),
+                                request.POST.get('recipe_dinner_friday'),
+                                request.POST.get('recipe_supper_friday')]
+            
+                     
+            #Creamos una lista vacía donde almacenaremos las recetas del modelo Recipe que coinciden con las seleccionadas por el usuario.
+            list_recipes = list()
+            
+            #Debemos comprobar uno por uno las respuestas de los request.
+            #En caso de haber información se buscará en el modelo Recipe su objeto.
+            #En caso que el request haya devuelto None, se dejará la receta existente en el modelo WeeklyMenu
+            #Recorremos las recetas seleccionadas
+            
+            for i, recipe_name_from_post in enumerate(recipes_select):
+                print(recipe_name_from_post)
+                if recipe_name_from_post is not None:
+                    list_recipes.append(Recipe.objects.get(name=recipe_name_from_post))
+                else:
+                    list_recipes.append((all_recipes_weekly)[i].recipe_sug)
+                
+            # Eliminamos todos los objetos que actualmente estan en WeeklyMenu del usuario
+            all_recipes_weekly.delete()
 
-            # En caso de que nos encontremos en la opción A, el valor de recetas esta vacío,
-            # ya que no existen recetas guardadas en la tabla WeeklyMenu.
-            # Se creará tantos objetos de la clase WeeklyMenu como recetas existen en la lista anterior.
-            # Estos objetos se visualizaran en el template.
-            if not recetas:
+            # Creamos el nuevo menu, debemos iterar todas las recetas que hemos obtenido del filtrado
+            for recipe in list_recipes:
+                new_week_menu = WeeklyMenu(
+                user_active=user_active, recipe_sug=recipe)
+                new_week_menu.save()
 
-                for rec in recipes_select:
-                    recipe = Recipe.objects.get(name=rec)
-                    WeeklyMenu.objects.create(
-                        user_active=user_active, recipe_sug=recipe)
+            messages.success(
+                self.request, 'El menú se ha guardado con éxito')
+                
+            if 'check_recipes' in self.request.session:
+                del self.request.session['check_recipes']
 
-            else:
-
-                # recorremos la lista para encontrar aquellas recetas que el usuario quiere modificar y su posición.
-                # de esta manera nos permitirá modificar la base de datos WeeklyMenu que se mostrará por pantalla
-                # una vez el usuario marque la opción guardar.
-                for p, select in enumerate(recipes_select):
-
-                    if select is not None:
-
-                        # En la variable 'recetas' creada al inicio del código tenemos almacenado todos los objetos
-                        # que existen en la clase WeeklyMenu y que componen el menú semanal.
-
-                        # Dentro de la variable 'recetas' debemos encontrar el objeto que queremos modificar.
-                        # Como sabemos la posición ('p') en la que se encuentra dicho objeto,
-                        # gracias a recorrer el listado de 'recipe_select',
-                        # podemos modificar su valor de recipe_sug.
-
-                        # El nuevo valor debe ser un objeto de la clase Recipe.
-                        # Lo encontraremos gracias a que sabemos el nombre de la receta (valor select).
-
-                        recetas[p].recipe_sug = Recipe.objects.get(name=select)
-                        recetas[p].save()
-
-            # Actualizamos el valor de recetas tras el cambio y lo ordenamos por id para evitar desorden
-            recetas = WeeklyMenu.objects.filter(
-                user_active=user_active).order_by('id')
-            return render(request, 'MenuSemanal/menu_semanal.html', {'recetas': recetas})
-
-# ----------------------------------------------------------------------------------------------------------- #
-
-        # Input eliminar.
-        if request.POST.get('eliminar'):
-            recetas.delete()
             return redirect('Menu Semanal')
+            
+        elif request.POST.get('cambiar'):
+            check_recipes = {}
+            
+            for i in range(10):
+                if request.POST.get(f'check_{i}') == 'on':
+                    check_recipes[str(i)] = 'on'
+            
+            self.request.session['check_recipes'] = check_recipes
+            
+            return redirect ('Menu Semanal')
+                    
+            
+            
+        elif request.POST.get('eliminar'):
+            
+            #Procedemos a eliminar las recetas dentro del modelo WeeklyMenu del usuario activo.
+            all_recipes_weekly.delete()
+            
+            #Enviamos mensaje de exito
+            messages.success(self.request, 'Menú eliminado con éxito')
+            
+            #Eliminamos los estados de los checkbox
+            if 'check_recipes' in self.request.session:
+                del self.request.session['check_recipes']
+            
+            return redirect('Menu Semanal')
+            
+        return redirect('Menu Semanal')
 
-# ----------------------------------------------------------------------------------------------------------- #
 
-        # OPCIÓN 3.
-        # Input cambiar
-        if request.POST.get('cambiar'):
-
-            # Creamos una lista donde almacenamos el valor del checkbox de cada receta
-            # De esta manera sabremos qué receta se ha clicado o no para poder ofrecer al usuario alternativa.
-
-            check_recipes = [request.POST.get('check_0'),
-                             request.POST.get('check_1'),
-                             request.POST.get('check_2'),
-                             request.POST.get('check_3'),
-                             request.POST.get('check_4'),
-                             request.POST.get('check_5'),
-                             request.POST.get('check_6'),
-                             request.POST.get('check_7'),
-                             request.POST.get('check_8'),
-                             request.POST.get('check_9')]
-
-            return render(request, 'MenuSemanal/menu_semanal.html', {'usu': request.user,
-                                                                     'recetas': recetas,
-                                                                     'recetas_dia': recetas_dia,
-                                                                     'recetas_noche': recetas_noche,
-                                                                     'check_recipes': check_recipes})
-
-    else:
-        return render(request, 'MenuSemanal/menu_semanal.html', {'recetas': recetas, 'recetas_dia': recetas_dia, 'recetas_noche': recetas_noche})

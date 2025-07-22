@@ -34,8 +34,8 @@ class Registro(View):
             userweekfoods = UserWeekfoods(user=usuario)
             userweekfoods.save()
             # Vamos a asignar como mínimo 20 recetas, 10 de cena y 10 de comida.
-            comida_recipes = Recipe.objects.filter(when_you_eat='Comida')[:5]
-            cena_recipes = Recipe.objects.filter(when_you_eat='Cena')[:5]
+            comida_recipes = Recipe.objects.filter(when_you_eat='Comida')[:10]
+            cena_recipes = Recipe.objects.filter(when_you_eat='Cena')[:10]
             initial_recipes = list(comida_recipes) + list(cena_recipes)
             userweekfoods.recipe.set(initial_recipes)
 

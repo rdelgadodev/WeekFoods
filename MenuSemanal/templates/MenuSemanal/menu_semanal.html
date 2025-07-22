@@ -5,268 +5,283 @@
 {% block content %}
 
 
+
+   {%if messages %}
+
+        {% for msg in messages %}
+        <div class="alert alert-{{msg.tags}} alert-dismissible fade show mt-3">
+            <p class='mb-0 text-center fs-3'>{{msg}}</p>
+            <button type="button" class='btn-close' data-bs-dismiss='alert' aria-label="Cerrar"></button>
+        </div>
+        {% endfor %}
+
+    {%endif%}
+
+
+
 <p class="h4 my-4 text-center">A la hora de elaborar el menú semanal, puede filtrar las recetas en función de cuantas
     calorias desea consumir diariamente o por el coste total que supone la elaboracion de cada receta.
     Tambien puede escoger usted mismo las recetas y/o cambiar alguna receta si lo desea.</p>
 
-<h3 class="h3 text-center">Filtrar por...</h3>
 
-<!--Filtros para seleccionar menu semanal-->
-<form action="{% url 'Menu Semanal' %}" method="POST">
-    {% csrf_token %}
+{% if not minimo %}
 
-    {%if messages %}
-
-    {% for msg in messages %}
-    <div class="alert alert-{{msg.tags}} text-center mensaje_calorias">
-        <h2 class="h2 ml-2">¡{{msg}}!</h2>
+    <div class="row">
+    <p class='h3 text-center m-4 border border-black border-2'>Para poder hacer uso de la creación de un menú semanal, debe disponer de al menos 5 recetas para comida y 5 recetas para cenas</p>
     </div>
-    {% endfor %}
 
-    {%endif%}
+{%else%}
 
-    <div class="row my-3 d-flex justify-content-center g-2">
-        <div class="col-12 col-sm-3">
-           
-                <span class="input-group-text text-wrap text-center fs-5 bg-dark text-white">Indique las calorias máximas diarias</span>
-                <input type="number" class="form-control fs-3" name="calorias" placeholder="Mínimo 1600">
-         
-        </div>
-        <div class="col-12 col-sm-3">
+    <h3 class="h3 text-center">Filtrar por...</h3>
+
+    <!--Filtros para seleccionar menu semanal-->
+    <form action="{% url 'Menu Semanal' %}" method="POST">
+        {% csrf_token %}
+
+     
+
+        <div class="row my-3 d-flex justify-content-center g-2">
+            <div class="col-12 col-sm-3">
             
-                <span class="input-group-text fs-5 bg-dark text-white text-wrap text-center ">Indique presupuesto máximo diario</span>
-                <input type="number" class="form-control fs-3" name="gasto" placeholder="Mínimo 10€">
-    
+                    <span class="input-group-text text-wrap text-center fs-5 bg-dark text-white">Indique las    calorias máximas diarias</span>
+                    <input type="number" class="form-control fs-3" name="calorias" placeholder="Mínimo 1600">
+            
+            </div>
+            <div class="col-12 col-sm-3">
+
+                    <span class="input-group-text fs-5 bg-dark text-white text-wrap text-center ">Indique   presupuesto máximo diario</span>
+                    <input type="number" class="form-control fs-3" name="gasto" placeholder="Mínimo 10€">
+            
+            </div>
         </div>
-    </div>
 
-    <div class="container text-center my-5">
-        <input type="submit" class="btn btn-dark text-center fs-4" value="Filtrar" name="filtro">
-    </div>
+        <div class="container text-center my-5">
+            <input type="submit" class="btn btn-dark text-center fs-4" value="Filtrar" name="filtro">
+        </div>
 
-    <!--Tabla para mostrar menu semanal-->
-    <div class="table-responsive-sm">
-        <table class="table table-bordered table-dark fs-2 tabla_calendario">
-            <thead>
-                <tr>
-                    <th scope="col"></th>
-                    <th scope="col">Lunes</th>
-                    <th scope="col">Martes</th>
-                    <th scope="col">Miércoles</th>
-                    <th scope="col">Jueves</th>
-                    <th scope="col">Viernes</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <th scope="row">Comida</th>
+        <!--Tabla para mostrar menu semanal-->
+        <div class="table-responsive-sm">
+            <table class="table table-bordered table-dark fs-2 tabla_calendario">
+                <thead>
+                    <tr>
+                        <th scope="col"></th>
+                        <th scope="col">Lunes</th>
+                        <th scope="col">Martes</th>
+                        <th scope="col">Miércoles</th>
+                        <th scope="col">Jueves</th>
+                        <th scope="col">Viernes</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th scope="row">Comida</th>
 
-                    <!-- En cada receta habrá un condicional if, de tal manera que o bien muestra la receta 
-                que el filtro ha escogido o bien un select para que el usuario pueda escoger él la receta-->
+                        <!-- En cada receta habrá un condicional if, de tal manera que o bien muestra la receta que el filtro ha escogido o bien un select para que el usuario pueda escoger él la receta-->
 
-                    <!-- Receta Comida Lunes-->
+                        <!-- Receta Comida Lunes-->
 
-                    {%if recetas.0 == None or check_recipes.0 == 'on'%}
-                    <td><select class="form-select" name="recipe_dinner_monday">
-                            {%for receta in recetas_dia%}
-                            <option>{{receta.name}}</option>
-                            {%endfor%}
-                        </select></td>
-                    {%else%}
+                        {%if recetas.0 == None or check_recipes.0 == 'on'%}
+                        <td><select class="form-select" name="recipe_dinner_monday">
+                                {%for receta in recetas_dia%}
+                                <option>{{receta.name}}</option>
+                                {%endfor%}
+                            </select></td>
+                        {%else%}
 
-                    <td><input type="checkbox" aria-label="Checkbox for following text input" id="option"
-                            name="check_0"><a href="{% url 'Ver Receta' recetas.0.recipe_sug.id %}" target="_blank"
-                            style="text-decoration: none; color: white;">
-                            {{recetas.0.recipe_sug.name}}</a></td>
-                    </td>
+                        <td><input type="checkbox" aria-label="Checkbox for following text input" id="option"
+                                name="check_0"><a href="{% url 'Ver Receta' recetas.0.recipe_sug.id %}"     target="_blank"
+                                style="text-decoration: none; color: white;">
+                                {{recetas.0.recipe_sug.name}}</a></td>
+                        </td>
+                        {%endif%}
+
+
+                        <!-- Receta Comida Martes-->
+
+                        {%if recetas.2 == None or check_recipes.2 == 'on'%}
+                        <td><select class="form-select fs-5" name="recipe_dinner_tuesday">
+                                {%for receta in recetas_dia%}
+                                <option>{{receta.name}}</option>
+                                {%endfor%}
+                            </select></td>
+                        {%else%}
+
+                        <td><input type="checkbox" aria-label="Checkbox for following text input" id="option"
+                                name="check_2"><a href="{% url 'Ver Receta' recetas.2.recipe_sug.id %}"     target="_blank"
+                                style="text-decoration: none; color: white;">
+                                {{recetas.2.recipe_sug.name}}</a></td>
+                        </td>
+                        {%endif%}
+
+                        <!-- Receta Comida Miércoles-->
+
+                        {%if recetas.4 == None or check_recipes.4 == 'on' %}
+                        <td><select class="form-select fs-5" name="recipe_dinner_wednesday">
+                                {%for receta in recetas_dia%}
+                                <option>{{receta.name}}</option>
+                                {%endfor%}
+                            </select></td>
+                        {%else%}
+
+                        <td><input type="checkbox" aria-label="Checkbox for following text input" id="option"
+                                name="check_4"><a href="{% url 'Ver Receta' recetas.4.recipe_sug.id %}"     target="_blank"
+                                style="text-decoration: none; color: white;">
+                                {{recetas.4.recipe_sug.name}}</a></td>
+                        </td>
+                        {%endif%}
+
+                        <!-- Receta Comida Jueves-->
+
+                        {%if recetas.6 == None or check_recipes.6 == 'on'%}
+                        <td><select class="form-select fs-5" name="recipe_dinner_thursday">
+                                {%for receta in recetas_dia%}
+                                <option>{{receta.name}}</option>
+                                {%endfor%}
+                            </select></td>
+                        {%else%}
+
+                        <td><input type="checkbox" aria-label="Checkbox for following text input" id="option"
+                                name="check_6"><a href="{% url 'Ver Receta' recetas.6.recipe_sug.id %}"     target="_blank"
+                                style="text-decoration: none; color: white;">
+                                {{recetas.6.recipe_sug.name}}</a></td>
+                        </td>
+                        {%endif%}
+
+                        <!-- Receta Comida Viernes-->
+
+                        {%if recetas.8 == None or check_recipes.8 == 'on' %}
+                        <td><select class="form-select fs-5" name="recipe_dinner_friday">
+                                {%for receta in recetas_dia%}
+                                <option>{{receta.name}}</option>
+                                {%endfor%}
+                            </select></td>
+                        {%else%}
+
+                        <td><input type="checkbox" aria-label="Checkbox for following text input" id="option"
+                                name="check_8"><a href="{% url 'Ver Receta' recetas.8.recipe_sug.id %}"     target="_blank"
+                                style="text-decoration: none; color: white;">
+                                {{recetas.8.recipe_sug.name}}</a></td>
+                        </td>
+                        {%endif%}
+
+                    </tr>
+                    <tr>
+
+                        <th scope="row">Cena</th>
+
+                        <!-- Receta Cena Lunes-->
+
+                        {%if recetas.1 == None or check_recipes.1 == 'on'%}
+                        <td><select class="form-select fs-5" name="recipe_supper_monday">
+                                {%for receta in recetas_noche%}
+                                <option>{{receta.name}}</option>
+                                {%endfor%}
+                            </select></td>
+                        {%else%}
+
+                        <td><input type="checkbox" aria-label="Checkbox for following text input" id="option"
+                                name="check_1"><a href="{% url 'Ver Receta' recetas.1.recipe_sug.id %}"     target="_blank"
+                                style="text-decoration: none; color: white;">
+                                {{recetas.1.recipe_sug.name}}</a></td>
+                        </td>
+                        {%endif%}
+
+                        <!-- Receta Cena Martes-->
+
+                        {%if recetas.3 == None or check_recipes.3 == 'on'%}
+                        <td><select class="form-select fs-5" name="recipe_supper_tuesday">
+                                {%for receta in recetas_noche%}
+                                <option>{{receta.name}}</option>
+                                {%endfor%}
+                            </select></td>
+                        {%else%}
+
+                        <td><input type="checkbox" aria-label="Checkbox for following text input" id="option"
+                                name="check_3"><a href="{% url 'Ver Receta' recetas.3.recipe_sug.id %}"     target="_blank"
+                                style="text-decoration: none; color: white;">
+                                {{recetas.3.recipe_sug.name}}</a></td>
+                        </td>
+                        {%endif%}
+
+                        <!-- Receta Cena Miercoles-->
+
+                        {%if recetas.5 == None or check_recipes.5 == 'on'%}
+                        <td><select class="form-select fs-5" name="recipe_supper_wednesday">
+                                {%for receta in recetas_noche%}
+                                <option>{{receta.name}}</option>
+                                {%endfor%}
+                            </select></td>
+                        {%else%}
+
+                        <td><input type="checkbox" aria-label="Checkbox for following text input" id="option"
+                                name="check_5"><a href="{% url 'Ver Receta' recetas.5.recipe_sug.id %}"     target="_blank"
+                                style="text-decoration: none; color: white;">
+                                {{recetas.5.recipe_sug.name}}</a></td>
+                        </td>
+                        {%endif%}
+
+                        <!-- Receta Cena Jueves-->
+
+                        {%if recetas.7 == None or check_recipes.7 == 'on' %}
+                        <td><select class="form-select fs-5" name="recipe_supper_thursday">
+                                {%for receta in recetas_noche%}
+                                <option>{{receta.name}}</option>
+                                {%endfor%}
+                            </select></td>
+                        {%else%}
+
+                        <td><input type="checkbox" aria-label="Checkbox for following text input" id="option"
+                                name="check_7"><a href="{% url 'Ver Receta' recetas.7.recipe_sug.id %}"     target="_blank"
+                                style="text-decoration: none; color: white;">
+                                {{recetas.7.recipe_sug.name}}</a></td>
+                        </td>
+                        {%endif%}
+
+                        <!-- Receta Cena Viernes-->
+
+                        {%if recetas.9 == None or check_recipes.9 == 'on' %}
+                        <td><select class="form-select fs-5" name="recipe_supper_friday">
+                                {%for receta in recetas_noche%}
+                                <option>{{receta.name}}</option>
+                                {%endfor%}
+                            </select></td>
+                        {%else%}
+
+                        <td><input type="checkbox" aria-label="Checkbox for following text input" id="option"
+                                name="check_9"><a href="{% url 'Ver Receta' recetas.9.recipe_sug.id %}"     target="_blank"
+                                style="text-decoration: none; color: white;">
+                                {{recetas.9.recipe_sug.name}}</a></td>
+                        </td>
+                    </tr>
                     {%endif%}
 
+                </tbody>
+            </table>
 
-                    <!-- Receta Comida Martes-->
+        </div>
 
-                    {%if recetas.2 == None or check_recipes.2 == 'on'%}
-                    <td><select class="form-select fs-5" name="recipe_dinner_tuesday">
-                            {%for receta in recetas_dia%}
-                            <option>{{receta.name}}</option>
-                            {%endfor%}
-                        </select></td>
-                    {%else%}
+        <!-- Botones-->
+        <div class="container-fluid text-center my-5">
 
-                    <td><input type="checkbox" aria-label="Checkbox for following text input" id="option"
-                            name="check_2"><a href="{% url 'Ver Receta' recetas.2.recipe_sug.id %}" target="_blank"
-                            style="text-decoration: none; color: white;">
-                            {{recetas.2.recipe_sug.name}}</a></td>
-                    </td>
-                    {%endif%}
+            <!-- Botón Guardar-->
+            {% if not recetas or check_recipes%}
+            <input type="submit" class="btn btn-dark text-center fs-4" value="Guardar" name="guardar">
+            {% endif %}
 
-                    <!-- Receta Comida Miércoles-->
+            <!-- Botón Cambiar-->
+            {% if recetas %}
+            <input type="submit" class="btn btn-dark text-center fs-4" value="Cambiar" name="cambiar">
+            {% endif %}
 
-                    {%if recetas.4 == None or check_recipes.4 == 'on' %}
-                    <td><select class="form-select fs-5" name="recipe_dinner_wednesday">
-                            {%for receta in recetas_dia%}
-                            <option>{{receta.name}}</option>
-                            {%endfor%}
-                        </select></td>
-                    {%else%}
+            <!-- Botón Eliminar todo-->
+            <input type="submit" class="btn btn-dark text-center fs-4" value="Eliminar todo" name="eliminar">
 
-                    <td><input type="checkbox" aria-label="Checkbox for following text input" id="option"
-                            name="check_4"><a href="{% url 'Ver Receta' recetas.4.recipe_sug.id %}" target="_blank"
-                            style="text-decoration: none; color: white;">
-                            {{recetas.4.recipe_sug.name}}</a></td>
-                    </td>
-                    {%endif%}
-
-                    <!-- Receta Comida Jueves-->
-
-                    {%if recetas.6 == None or check_recipes.6 == 'on'%}
-                    <td><select class="form-select fs-5" name="recipe_dinner_thursday">
-                            {%for receta in recetas_dia%}
-                            <option>{{receta.name}}</option>
-                            {%endfor%}
-                        </select></td>
-                    {%else%}
-
-                    <td><input type="checkbox" aria-label="Checkbox for following text input" id="option"
-                            name="check_6"><a href="{% url 'Ver Receta' recetas.6.recipe_sug.id %}" target="_blank"
-                            style="text-decoration: none; color: white;">
-                            {{recetas.6.recipe_sug.name}}</a></td>
-                    </td>
-                    {%endif%}
-
-                    <!-- Receta Comida Viernes-->
-
-                    {%if recetas.8 == None or check_recipes.8 == 'on' %}
-                    <td><select class="form-select fs-5" name="recipe_dinner_friday">
-                            {%for receta in recetas_dia%}
-                            <option>{{receta.name}}</option>
-                            {%endfor%}
-                        </select></td>
-                    {%else%}
-
-                    <td><input type="checkbox" aria-label="Checkbox for following text input" id="option"
-                            name="check_8"><a href="{% url 'Ver Receta' recetas.8.recipe_sug.id %}" target="_blank"
-                            style="text-decoration: none; color: white;">
-                            {{recetas.8.recipe_sug.name}}</a></td>
-                    </td>
-                    {%endif%}
-
-                </tr>
-                <tr>
-
-                    <th scope="row">Cena</th>
-
-                    <!-- Receta Cena Lunes-->
-
-                    {%if recetas.1 == None or check_recipes.1 == 'on'%}
-                    <td><select class="form-select fs-5" name="recipe_supper_monday">
-                            {%for receta in recetas_noche%}
-                            <option>{{receta.name}}</option>
-                            {%endfor%}
-                        </select></td>
-                    {%else%}
-
-                    <td><input type="checkbox" aria-label="Checkbox for following text input" id="option"
-                            name="check_1"><a href="{% url 'Ver Receta' recetas.1.recipe_sug.id %}" target="_blank"
-                            style="text-decoration: none; color: white;">
-                            {{recetas.1.recipe_sug.name}}</a></td>
-                    </td>
-                    {%endif%}
-
-                    <!-- Receta Cena Martes-->
-
-                    {%if recetas.3 == None or check_recipes.3 == 'on'%}
-                    <td><select class="form-select fs-5" name="recipe_supper_tuesday">
-                            {%for receta in recetas_noche%}
-                            <option>{{receta.name}}</option>
-                            {%endfor%}
-                        </select></td>
-                    {%else%}
-
-                    <td><input type="checkbox" aria-label="Checkbox for following text input" id="option"
-                            name="check_3"><a href="{% url 'Ver Receta' recetas.3.recipe_sug.id %}" target="_blank"
-                            style="text-decoration: none; color: white;">
-                            {{recetas.3.recipe_sug.name}}</a></td>
-                    </td>
-                    {%endif%}
-
-                    <!-- Receta Cena Miercoles-->
-
-                    {%if recetas.5 == None or check_recipes.5 == 'on'%}
-                    <td><select class="form-select fs-5" name="recipe_supper_wednesday">
-                            {%for receta in recetas_noche%}
-                            <option>{{receta.name}}</option>
-                            {%endfor%}
-                        </select></td>
-                    {%else%}
-
-                    <td><input type="checkbox" aria-label="Checkbox for following text input" id="option"
-                            name="check_5"><a href="{% url 'Ver Receta' recetas.5.recipe_sug.id %}" target="_blank"
-                            style="text-decoration: none; color: white;">
-                            {{recetas.5.recipe_sug.name}}</a></td>
-                    </td>
-                    {%endif%}
-
-                    <!-- Receta Cena Jueves-->
-
-                    {%if recetas.7 == None or check_recipes.7 == 'on' %}
-                    <td><select class="form-select fs-5" name="recipe_supper_thursday">
-                            {%for receta in recetas_noche%}
-                            <option>{{receta.name}}</option>
-                            {%endfor%}
-                        </select></td>
-                    {%else%}
-
-                    <td><input type="checkbox" aria-label="Checkbox for following text input" id="option"
-                            name="check_7"><a href="{% url 'Ver Receta' recetas.7.recipe_sug.id %}" target="_blank"
-                            style="text-decoration: none; color: white;">
-                            {{recetas.7.recipe_sug.name}}</a></td>
-                    </td>
-                    {%endif%}
-
-                    <!-- Receta Cena Viernes-->
-
-                    {%if recetas.9 == None or check_recipes.9 == 'on' %}
-                    <td><select class="form-select fs-5" name="recipe_supper_friday">
-                            {%for receta in recetas_noche%}
-                            <option>{{receta.name}}</option>
-                            {%endfor%}
-                        </select></td>
-                    {%else%}
-
-                    <td><input type="checkbox" aria-label="Checkbox for following text input" id="option"
-                            name="check_9"><a href="{% url 'Ver Receta' recetas.9.recipe_sug.id %}" target="_blank"
-                            style="text-decoration: none; color: white;">
-                            {{recetas.9.recipe_sug.name}}</a></td>
-                    </td>
-                </tr>
-                {%endif%}
-
-            </tbody>
-        </table>
-
-    </div>
-
-    <!-- Botones-->
-    <div class="container-fluid text-center my-5">
-
-        <!-- Botón Guardar-->
-        {% if not recetas or check_recipes%}
-        <input type="submit" class="btn btn-dark text-center fs-4" value="Guardar" name="guardar">
-        {% endif %}
-
-        <!-- Botón Cambiar-->
-        {% if recetas %}
-        <input type="submit" class="btn btn-dark text-center fs-4" value="Cambiar" name="cambiar">
-        {% endif %}
-
-        <!-- Botón Eliminar todo-->
-        <input type="submit" class="btn btn-dark text-center fs-4" value="Eliminar todo" name="eliminar">
-
-        <!-- Botón Lista compra-->
-        <a class="btn btn-dark text-center fs-4" href="{% url 'Lista Compra' %}">Ver lista de la compra</a>
+            <!-- Botón Lista compra-->
+            <a class="btn btn-dark text-center fs-4" href="{% url 'Lista Compra' %}">Ver lista de la compra</a>
 
 
-    </div>
+        </div>
 
-</form>
+    </form>
+    {%endif%}
 {% endblock %}
