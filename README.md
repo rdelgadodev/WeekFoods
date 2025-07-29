@@ -113,7 +113,7 @@ Una vez que la aplicación esté en funcionamiento:
 1.	Registro/Inicio de Sesión:
 - Si eres un usuario nuevo, haz clic en "¿Eres nuevo?" para registrarte con tus datos. 
 - Si ya tienes una cuenta, introduce tus credenciales en la página principal y haz clic en "Login" para acceder a tu perfil.
-- 
+  
 2.	Planifica tu Menú Semanal:
 - Desde la página principal, puedes seleccionar manualmente las recetas para cada comida y cena, o
 - Utiliza los filtros de calorías y gasto para que la aplicación te proponga un menú completo. 
@@ -125,7 +125,7 @@ Una vez que la aplicación esté en funcionamiento:
 - Haz clic en "Ver receta" para obtener detalles de preparación e ingredientes. 
 - Crea nuevas recetas rellenando un formulario y guardándolas. Inicialmente son privadas hasta que decidas "Compartir" para que sean accesibles a toda la comunidad. 
 - Elimina recetas que no desees mantener.
-- 
+  
 4.	Lista de la Compra: Accede a la sección de "Lista de la compra" para ver los ingredientes y cantidades que necesitas comprar para tu menú planificado.
 
 
