@@ -1,7 +1,9 @@
 🥗 WeekFoods: Tu planificador semanal de comidas
+
 ¡Bienvenido a WeekFoods! Esta es una aplicación web diseñada para simplificar tu planificación semanal de comidas y cenas, ayudándote a llevar un control de tu alimentación y presupuesto. Olvídate de la pregunta "¿Qué comemos hoy?" y empieza a disfrutar de una vida más organizada y saludable.
 
 🌟 Características Principales
+
 •	Planificación Semanal: Organiza tus comidas y cenas de lunes a viernes. 
 •	Gestión de Recetas:
     o	Acceso a un amplio listado de recetas. 
