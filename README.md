@@ -8,16 +8,17 @@
 
 •	Gestión de Recetas:
 
-    o	Acceso a un amplio listado de recetas. 
-    o	Visualiza detalles de cada receta: elaboración, ingredientes, calorías y coste. 
-    o	Crea y comparte tus propias recetas con la comunidad. 
-    o	Elimina recetas que no sean de tu agrado. 
+    - Acceso a un amplio listado de recetas. 
+    - Visualiza detalles de cada receta: elaboración, ingredientes, calorías y coste. 
+    - Crea y comparte tus propias recetas con la comunidad. 
+    - Elimina recetas que no sean de tu agrado. 
     
 •	Creación de Menús Flexibles:
-    o	Menú Filtrado: Genera un menú semanal automáticamente aplicando filtros de calorías máximas diarias y gasto diario. 
-    o	Menú Personalizado: Escoge manualmente cada plato para cada día y momento (comida/cena). 
-    o	Modificación del Menú: Posibilidad de modificar una, varias o todas las recetas del menú semanal generado. 
-    o	Eliminación del Menú: Opción para eliminar el menú semanal completo. 
+
+    - Menú Filtrado: Genera un menú semanal automáticamente aplicando filtros de calorías máximas diarias y gasto diario. 
+    - Menú Personalizado: Escoge manualmente cada plato para cada día y momento (comida/cena). 
+    - Modificación del Menú: Posibilidad de modificar una, varias o todas las recetas del menú semanal generado. 
+    - Eliminación del Menú: Opción para eliminar el menú semanal completo. 
     
 •	Lista de la Compra: Genera automáticamente una lista de los ingredientes necesarios para tu menú semanal, incluyendo el coste aproximado. 
 
