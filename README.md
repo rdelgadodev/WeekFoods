@@ -7,11 +7,12 @@
 •	Planificación Semanal: Organiza tus comidas y cenas de lunes a viernes. 
 
 •	Gestión de Recetas:
-    - Acceso a un amplio listado de recetas. 
-    - Visualiza detalles de cada receta: elaboración, ingredientes, calorías y coste. 
-    - Crea y comparte tus propias recetas con la comunidad. 
-    - Elimina recetas que no sean de tu agrado. 
-    
+
+- Acceso a un amplio listado de recetas. 
+- Visualiza detalles de cada receta: elaboración, ingredientes, calorías y coste. 
+- Crea y comparte tus propias recetas con la comunidad. 
+- Elimina recetas que no sean de tu agrado. 
+
 •	Creación de Menús Flexibles:
     - Menú Filtrado: Genera un menú semanal automáticamente aplicando filtros de calorías máximas diarias y gasto diario. 
     - Menú Personalizado: Escoge manualmente cada plato para cada día y momento (comida/cena). 
