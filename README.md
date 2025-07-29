@@ -7,7 +7,6 @@
 •	Planificación Semanal: Organiza tus comidas y cenas de lunes a viernes. 
 
 •	Gestión de Recetas:
-
 - Acceso a un amplio listado de recetas. 
 - Visualiza detalles de cada receta: elaboración, ingredientes, calorías y coste. 
 - Crea y comparte tus propias recetas con la comunidad. 
