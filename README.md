@@ -24,6 +24,8 @@
 
 •	Comunidad: Fomenta la creación de una comunidad donde los usuarios pueden compartir y acceder a las recetas de otros. 
 
+
+
 🎯 Objetivos del Proyecto
 
 •	Eliminar Preocupaciones Alimentarias: Simplificar la pregunta diaria de qué cocinar. 
@@ -34,6 +36,8 @@
 
 •	Experiencia de Usuario: Proporcionar una web atractiva, funcional y sencilla de usar, con tutoriales en vídeo disponibles. 
 
+
+
 🛠️ Tecnologías Utilizadas
 Este proyecto ha sido desarrollado utilizando un robusto stack tecnológico: 
 
@@ -41,69 +45,90 @@ Este proyecto ha sido desarrollado utilizando un robusto stack tecnológico:
 
 •	Framework Web: Django (elegido por su rapidez, facilidad de uso, seguridad, panel de administración y escalabilidad). 
 
-•	Base de Datos: PostgreSQL (seleccionado por su alta estabilidad, soporte SQL, acceso simultáneo, escalabilidad y rendimiento óptimo bajo cargas pesadas). 
+•	Base de Datos: PostgreSQL (seleccionado por su alta estabilidad, soporte SQL, acceso simultáneo, escalabilidad y rendimiento óptimo bajo cargas pesadas).
+
 •	Entorno de Desarrollo: Visual Studio Code (VSC) 
 
 •	Entorno Virtual: Virtualenv 
 
 •	Diseño y Maquetación:
-Bootstrap (librería de componentes gráficos y maquetador de diseño responsivo). 
-Google Fonts 
-Font Awesome (biblioteca de iconos vectoriales). 
+- Bootstrap (librería de componentes gráficos y maquetador de diseño responsivo). 
+- Google Fonts 
+- Font Awesome (biblioteca de iconos vectoriales).
+
+ 
 
 📂 Modelo de Datos
 El proyecto utiliza una base de datos relacional compuesta por 4 tablas principales:  
-•	Ingredient: Almacena los detalles de cada ingrediente (nombre, tipo de alimento, precio). 
-•	Recipe: Contiene la información de las recetas (nombre, elaboración, momento de consumo, calorías). 
-•	UserWeekfoods: Relacionada con el modelo de usuario por defecto de Django, guarda información adicional del perfil de usuario. 
-•	WeeklyMenu: Almacena el menú semanal de cada usuario. 
-Se utilizan relaciones ManyToMany entre Ingredient y Recipe, y entre UserWeekfoods y Recipe para permitir múltiples ingredientes por receta y que todos los usuarios accedan a todas las recetas. También se usan claves foráneas para relacionar UserWeekfoods y Recipe con WeeklyMenu. 
+- Ingredient: Almacena los detalles de cada ingrediente (nombre, tipo de alimento, precio).
+- Recipe: Contiene la información de las recetas (nombre, elaboración, momento de consumo, calorías). 
+- UserWeekfoods: Relacionada con el modelo de usuario por defecto de Django, guarda información adicional del perfil de usuario. 
+- WeeklyMenu: Almacena el menú semanal de cada usuario. 
+Se utilizan relaciones ManyToMany entre Ingredient y Recipe, y entre UserWeekfoods y Recipe para permitir múltiples ingredientes por receta y que todos los usuarios accedan a todas las recetas. También se usan claves foráneas para relacionar UserWeekfoods y Recipe con WeeklyMenu.
+
+
 
 🚀 Instalación
 Para poner en marcha la aplicación web WeekFoods en tu entorno local, sigue estos sencillos pasos: 
 
 1.- Clona el repositorio:
-git clone https://github.com/RaulPW/WeekFoods.git # Asegúrate de reemplazar 'tu-usuario'
-cd WeekFoods
+
+    git clone https://github.com/RaulPW/WeekFoods.git # Asegúrate de reemplazar 'tu-usuario'
+    cd WeekFoods
 
 2.- Crea y activa un entorno virtual:
-python -m venv venv
-source venv/bin/activate # En Linux/macOS
-o .\venv\Scripts\activate en Windows
+
+    python -m venv venv
+    source venv/bin/activate # En Linux/macOS
+    o .\venv\Scripts\activate en Windows
 
 3.- Instala las dependencias:
-pip install -r requirements.txt
+
+    pip install -r requirements.txt
 
 4.- Configura tu base de datos PostgreSQL:
+
 •	Asegúrate de tener PostgreSQL instalado y en funcionamiento.
+
 •	Configura las credenciales de tu base de datos en el archivo settings.py de tu proyecto Django (bases de datos, usuario, contraseña).
 
 5.- Realiza las migraciones de la base de datos:
-python manage.py makemigrations
-python manage.py migrate
+
+    python manage.py makemigrations
+    python manage.py migrate
 
 6.- Crea un superusuario (opcional, para acceder al panel de administración de Django):
-python manage.py createsuperuser
+
+    python manage.py createsuperuser
 
 7.- Ejecuta la aplicación:
-python manage.py runserver
+
+    python manage.py runserver
+
+    
 
 💡 Uso
 Una vez que la aplicación esté en funcionamiento:
+
 1.	Registro/Inicio de Sesión:
-    o	Si eres un usuario nuevo, haz clic en "¿Eres nuevo?" para registrarte con tus datos. 
-    o	Si ya tienes una cuenta, introduce tus credenciales en la página principal y haz clic en "Login" para acceder a tu perfil. 
+- Si eres un usuario nuevo, haz clic en "¿Eres nuevo?" para registrarte con tus datos. 
+- Si ya tienes una cuenta, introduce tus credenciales en la página principal y haz clic en "Login" para acceder a tu perfil.
+- 
 2.	Planifica tu Menú Semanal:
-    o	Desde la página principal, puedes seleccionar manualmente las recetas para cada comida y cena, o
-    o	Utiliza los filtros de calorías y gasto para que la aplicación te proponga un menú completo. 
-    o	Puedes modificar las recetas seleccionadas y guardar los cambios. 
-    o	También puedes eliminar todo el menú semanal para empezar de nuevo. 
+- Desde la página principal, puedes seleccionar manualmente las recetas para cada comida y cena, o
+- Utiliza los filtros de calorías y gasto para que la aplicación te proponga un menú completo. 
+- Puedes modificar las recetas seleccionadas y guardar los cambios. 
+- También puedes eliminar todo el menú semanal para empezar de nuevo.
+  
 3.	Gestiona tus Recetas:
-    o	Accede al listado de recetas para ver las disponibles, organizadas en páginas. 
-    o	Haz clic en "Ver receta" para obtener detalles de preparación e ingredientes. 
-    o	Crea nuevas recetas rellenando un formulario y guardándolas. Inicialmente son privadas hasta que decidas "Compartir" para que sean accesibles a toda la comunidad. 
-    o	Elimina recetas que no desees mantener. 
+- Accede al listado de recetas para ver las disponibles, organizadas en páginas.
+- Haz clic en "Ver receta" para obtener detalles de preparación e ingredientes. 
+- Crea nuevas recetas rellenando un formulario y guardándolas. Inicialmente son privadas hasta que decidas "Compartir" para que sean accesibles a toda la comunidad. 
+- Elimina recetas que no desees mantener.
+- 
 4.	Lista de la Compra: Accede a la sección de "Lista de la compra" para ver los ingredientes y cantidades que necesitas comprar para tu menú planificado.
+
+
 
 🤝 Contribución
 ¡Las contribuciones son bienvenidas! Si deseas mejorar este proyecto o añadir nuevas funcionalidades, por favor, sigue estos pasos:
