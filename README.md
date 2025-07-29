@@ -5,24 +5,33 @@
 🌟 Características Principales
 
 •	Planificación Semanal: Organiza tus comidas y cenas de lunes a viernes. 
+
 •	Gestión de Recetas:
     o	Acceso a un amplio listado de recetas. 
     o	Visualiza detalles de cada receta: elaboración, ingredientes, calorías y coste. 
     o	Crea y comparte tus propias recetas con la comunidad. 
     o	Elimina recetas que no sean de tu agrado. 
+    
 •	Creación de Menús Flexibles:
     o	Menú Filtrado: Genera un menú semanal automáticamente aplicando filtros de calorías máximas diarias y gasto diario. 
     o	Menú Personalizado: Escoge manualmente cada plato para cada día y momento (comida/cena). 
     o	Modificación del Menú: Posibilidad de modificar una, varias o todas las recetas del menú semanal generado. 
     o	Eliminación del Menú: Opción para eliminar el menú semanal completo. 
+    
 •	Lista de la Compra: Genera automáticamente una lista de los ingredientes necesarios para tu menú semanal, incluyendo el coste aproximado. 
+
 •	Gestión de Ingredientes: Añade nuevos ingredientes a la base de datos si no existen en el listado. 
+
 •	Comunidad: Fomenta la creación de una comunidad donde los usuarios pueden compartir y acceder a las recetas de otros. 
 
 🎯 Objetivos del Proyecto
+
 •	Eliminar Preocupaciones Alimentarias: Simplificar la pregunta diaria de qué cocinar. 
+
 •	Fomentar la Vida Saludable: Ofrecer recetas equilibradas, ricas en verduras y proteínas. 
+
 •	Economía Doméstica: Ayudar a planificar menús que no supongan un gran desembolso económico. 
+
 •	Experiencia de Usuario: Proporcionar una web atractiva, funcional y sencilla de usar, con tutoriales en vídeo disponibles. 
 
 🛠️ Tecnologías Utilizadas
