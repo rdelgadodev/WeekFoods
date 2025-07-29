@@ -13,10 +13,10 @@
 - Elimina recetas que no sean de tu agrado. 
 
 •	Creación de Menús Flexibles:
-    - Menú Filtrado: Genera un menú semanal automáticamente aplicando filtros de calorías máximas diarias y gasto diario. 
-    - Menú Personalizado: Escoge manualmente cada plato para cada día y momento (comida/cena). 
-    - Modificación del Menú: Posibilidad de modificar una, varias o todas las recetas del menú semanal generado. 
-    - Eliminación del Menú: Opción para eliminar el menú semanal completo. 
+- Menú Filtrado: Genera un menú semanal automáticamente aplicando filtros de calorías máximas diarias y gasto diario. 
+- Menú Personalizado: Escoge manualmente cada plato para cada día y momento (comida/cena). 
+- Modificación del Menú: Posibilidad de modificar una, varias o todas las recetas del menú semanal generado. 
+- Eliminación del Menú: Opción para eliminar el menú semanal completo. 
     
 •	Lista de la Compra: Genera automáticamente una lista de los ingredientes necesarios para tu menú semanal, incluyendo el coste aproximado. 
 
@@ -36,15 +36,20 @@
 
 🛠️ Tecnologías Utilizadas
 Este proyecto ha sido desarrollado utilizando un robusto stack tecnológico: 
+
 •	Lenguaje de Programación: Python 3 
+
 •	Framework Web: Django (elegido por su rapidez, facilidad de uso, seguridad, panel de administración y escalabilidad). 
+
 •	Base de Datos: PostgreSQL (seleccionado por su alta estabilidad, soporte SQL, acceso simultáneo, escalabilidad y rendimiento óptimo bajo cargas pesadas). 
 •	Entorno de Desarrollo: Visual Studio Code (VSC) 
+
 •	Entorno Virtual: Virtualenv 
+
 •	Diseño y Maquetación:
-    o	Bootstrap (librería de componentes gráficos y maquetador de diseño responsivo). 
-    o	Google Fonts 
-    o	Font Awesome (biblioteca de iconos vectoriales). 
+Bootstrap (librería de componentes gráficos y maquetador de diseño responsivo). 
+Google Fonts 
+Font Awesome (biblioteca de iconos vectoriales). 
 
 📂 Modelo de Datos
 El proyecto utiliza una base de datos relacional compuesta por 4 tablas principales:  
