@@ -304,3 +304,26 @@ body {
     border-color: white;
 
 }
+
+/* ----------------------------------------------------------------------------------------------------- */
+/* ----------------------------------------------------------------------------------------------------- */
+
+/* Estilo para recetas.html */
+
+
+.btn-fixed-height{
+    /* Establece un padding vertical consistente */
+    padding-top: 0.5rem;   /* Ajusta este valor según necesites */
+    padding-bottom: 0.5rem; /* Ajusta este valor según necesites */
+
+    /* Asegura que la altura de línea sea la misma para el texto */
+    line-height: 1.5; /* Valor común, puedes ajustarlo */
+
+    /* Opcional: Si quieres una altura fija exacta, pero es menos flexible */
+    /* height: 50px; */ /* Ajusta si es necesario, pero puede cortar texto */
+
+    /* Asegura que el contenido esté centrado verticalmente si hay padding extra */
+    display: flex;
+    align-items: center;
+    justify-content: center; /* Para centrar también horizontalmente si el ancho es fijo */
+}

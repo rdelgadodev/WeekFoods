@@ -5,7 +5,9 @@
 {% block content %}
 
 {% if not shopping_dict %}
-<div class="container mt-5 bg-dark fs-2 text-center">No hay productos añadidos. Dirígase a 'Menú Semanal' para generar un menú</div>
+<div class="container-fluid">
+    <p class='h3 text-center p-4 m-4 border border-black border-2'>No hay productos añadidos. Dirígase a 'Menú Semanal' para generar un menú</p>
+</div>
 {% else %}
 <div class="container my-3 fs-2 text-center">Cesta de la compra</div>
 <div class="table-responsive-sm text-center">

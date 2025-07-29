@@ -159,8 +159,13 @@ class MenuSemanalView(LoginRequiredMixin, TemplateView):
         if request.POST.get('filtro'):
 
             # Capturamos los valores introducidos en los inputs de calorias y precio
-            max_calories = int(request.POST.get('calorias', 1600))
-            max_waste = int(request.POST.get('gasto', 10))
+            max_calories = request.POST.get('calorias')
+            max_waste = request.POST.get('gasto')
+            
+            #vamos a usar una expresion ternario para verificar si se ha introducido datos
+            max_calories = int(max_calories) if max_calories else 1600
+            max_waste = int(max_waste) if max_waste else 10
+            
 
             # Para poder hacer uso del filtrado, debemos comprobar que las cantidades que se han introducido sean correctas.
             # Iniciamos el True una variable que cambiará a false si los datos introducidos no son los adecuados.
@@ -169,11 +174,11 @@ class MenuSemanalView(LoginRequiredMixin, TemplateView):
             # Comprobamos que se introducen las cantidades correctas antes de continuar, enviando mensajes al usuario
             if max_calories < 1600:
                 messages.warning(
-                    self.request, 'Las calorias deben ser mayor o igual a 1600')
+                    self.request, 'Las calorias diarias deben ser mayor o igual a 1600')
                 correct_values = False
             if max_waste < 10:
                 messages.warning(
-                    self.request, 'El gasto semanal debe ser superior o igual a 10')
+                    self.request, 'El gasto diario debe ser superior o igual a 10')
                 correct_values = False
 
             # Si esta todo correcto, procedemos a filtrar las recetas que deben aparecer en el menu.
@@ -258,6 +263,7 @@ class MenuSemanalView(LoginRequiredMixin, TemplateView):
             return redirect('Menu Semanal')
             
         elif request.POST.get('cambiar'):
+   
             check_recipes = {}
             
             for i in range(10):
@@ -266,6 +272,7 @@ class MenuSemanalView(LoginRequiredMixin, TemplateView):
             
             self.request.session['check_recipes'] = check_recipes
             
+           
             return redirect ('Menu Semanal')
                     
             

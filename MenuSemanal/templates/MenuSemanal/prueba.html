@@ -1,53 +1,8 @@
-{% extends 'WeekFoodsApp/base_usuario.html' %}
-
-{% load static %}
-
-{% block content %}
-
-
-
-   {%if messages %}
-
-        {% for msg in messages %}
-        <div class="alert alert-{{msg.tags}} alert-dismissible fade show mt-3">
-            <p class='mb-0 text-center fs-3'>{{msg}}</p>
-            <button type="button" class='btn-close' data-bs-dismiss='alert' aria-label="Cerrar"></button>
-        </div>
-        {% endfor %}
-
-    {%endif%}
-
-
-<h1 class="my-4 text-center text-white">Menú Semanal</h1>
-
-
-{% if not minimo %}
-
-    <div class="container-fluid text-center">
-        <p class='h3 text-center p-4 m-4 border border-black border-2'>Para poder hacer uso de la creación de un menú semanal, debe disponer de al menos 5 recetas para comida y 5 recetas para cenas.</p>
-        <a class="btn btn-dark text-center fs-4" href="{% url 'Crear Receta' %}">
-        <i class="fa-solid fa-plus"></i>
-        Crear receta
-      </a>
-    </div>
-
-
-{%else%}
-
-<div class='container'>
-    
-    <p class="h4 my-4 text-center">A la hora de elaborar el menú semanal, puede filtrar las recetas en función de cuantas
-        calorias desea consumir diariamente o por el coste total que supone la elaboracion de cada receta.
-        Tambien puede escoger usted mismo las recetas y/o cambiar alguna receta si lo desea.</p>
-</div>
-
-    <h3 class="h3 text-center">Filtrar por...</h3>
-
-    <!--Filtros para seleccionar menu semanal-->
-    <form action="{% url 'Menu Semanal' %}" method="POST">
+<form action="{% url 'Menu Semanal' %}" method="POST">
         {% csrf_token %}
 
      
+
         <div class="row my-3 d-flex justify-content-center g-2">
             <div class="col-12 col-sm-3">
             
@@ -66,8 +21,7 @@
         <div class="container text-center my-5">
             <input type="submit" class="btn btn-dark text-center fs-4" value="Filtrar" name="filtro">
         </div>
-    
-                {% csrf_token %}
+</form>
         <!--Tabla para mostrar menu semanal-->
         <div class="table-responsive-sm">
             <table class="table table-bordered table-dark fs-2 tabla_calendario">
@@ -270,32 +224,33 @@
         </div>
 
         <!-- Botones-->
-        <div class="d-flex justify-content-center gap-2 text-center my-5">
+        <div class="container-fluid text-center my-5">
 
             <!-- Botón Guardar-->
             {% if not recetas or check_recipes%}
-
-            <input type="submit" class="btn btn-dark text-center fs-4" name="guardar" value='Guardar'>
-         
-          
-            <!-- Botón Cambiar-->
-            {% elif recetas %}
-          
-            <input type="submit" class="btn btn-dark text-center fs-4" name="cambiar" value='Cambiar'>
-     
+            <form action="{% url 'Menu Semanal' %}" method="POST">
+                {% csrf_token %}
+            <button type="submit" class="btn btn-dark text-center fs-4" name="guardar">Guardar</button>
+            </form>
             {% endif %}
-        
+
+            <!-- Botón Cambiar-->
+            {% if recetas %}
+            <form action="{% url 'Menu Semanal' %}" method="POST">
+                {% csrf_token %}
+            <button type="submit" class="btn btn-dark text-center fs-4" name="cambiar">Cambiar</button>
+            </form>
+            {% endif %}
 
             <!-- Botón Eliminar todo-->
-  
-            <input type="submit" class="btn btn-dark text-center fs-4" value='Eliminar menú semanal' name="eliminar" onclick="return confirm('¿Está seguro que desea eliminar todo el menú semanal?');">
-    
+             <form action="{% url 'Menu Semanal' %}" method="POST">
+                {% csrf_token %}
+            <button type="submit" class="btn btn-dark text-center fs-4" name="eliminar" onclick="return confirm('¿Está seguro que desea eliminar todo el menú semanal?');">Eliminar todo</button>
+            </form>
             <!-- Botón Lista compra-->
             <a class="btn btn-dark text-center fs-4" href="{% url 'Lista Compra' %}">Ver lista de la compra</a>
 
 
         </div>
-    </form>
 
-    {%endif%}
-{% endblock %}
+ 

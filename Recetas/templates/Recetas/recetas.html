@@ -1,8 +1,7 @@
 {% extends 'WeekFoodsApp/base_usuario.html' %} {% load static %} 
 {% block content %}
 
-<form action="{% url 'Recetas' %}" method="POST">
-  {% csrf_token %}
+
 <h1 class="my-4 text-center text-white">Listado de recetas</h1>
 <div class="table-responsive-sm mt-3 text-center fs-1">
    
@@ -19,7 +18,8 @@
     </div>
     {% endif %}
 
-    <table class="table table-dark fs-4 mt-3">
+    {%if recipes%}
+    <table class="table table-dark fs-4">
       <thead>
         <tr>
           <th style="width: 45%">Receta</th>
@@ -46,6 +46,8 @@
            
 <form action="{% url 'Eliminar' recipe.id %}" method="POST" class="d-inline ms-2">
     {% csrf_token %}
+    {#Para que cuando se elimine una receta, vuelva a la misma página donde estaba#}
+    <input type="hidden" name="page" value="{{ page_obj.number }}">
     <button type="submit" class="btn btn-danger text-white btn-md rounded-pill fs-5" onclick="return confirm('¿Está seguro que desea eliminar la receta {{ recipe.name }}?');">
         Eliminar
     </button>
@@ -53,6 +55,8 @@
 
 <form action="{% url 'Compartir Receta' recipe.id %}" method="POST" class="d-inline ms-2">
     {% csrf_token %}
+    {#Para que cuando se comparta una receta, vuelva a la misma página donde estaba#}
+    <input type="hidden" name="page" value="{{ page_obj.number }}">
     <button type="submit" class="btn btn-dark text-white btn-md rounded-pill fs-5" onclick="return confirm('¿Está seguro que desea compartir la receta {{ recipe.name }}?');"><i class="fa-solid fa-share-from-square"></i>
        Compartir
     </button>
@@ -109,11 +113,21 @@
       </nav>
     </div>
 
-    <div class="container-fluid text-center my-3">
-      <a class="btn btn-dark text-center fs-4" href="{% url 'Crear Receta' %}">
-        <i class="fa-solid fa-plus"></i>
+    {%else%}
+
+    <div class="container-fluid">
+      <p class='h3 text-center p-4 m-4 border border-black border-2'>No dispones de recetas guardadas. ¡Empieza a crearlas!</p>
+    </div>
+
+    {%endif%}
+    <div class="d-flex justify-content-center gap-2 text-center my-3">
+      <a class="btn btn-dark text-center fs-4 btn-fixed-height" href="{% url 'Crear Receta' %}">
         Crear receta
       </a>
+      <form action="{% url 'Eliminar Todas Recetas' %}" method='post'clas='form'>
+        {% csrf_token %}
+      <button type='submit' class='btn btn-dark text-center fs-4 btn-fixed-height' onclick="return confirm('¿Está seguro que desea eliminar todas las recetas?">Eliminar todas las recetas</button>
+      </form>
     </div>
   </div>
 

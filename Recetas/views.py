@@ -2,12 +2,13 @@ from django.shortcuts import render, HttpResponse, redirect
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse_lazy
 from django.views import View
+from MenuSemanal.models import WeeklyMenu
 from WeekFoodsApp.models import UserWeekfoods, Recipe, Ingredient
 from django.core.paginator import Paginator
 from .forms import RecipeForms, IngredientForms
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic import DetailView, ListView, DeleteView, CreateView
+from django.views.generic import DetailView, ListView, CreateView
 
 
 class RecetasListView(LoginRequiredMixin, ListView):
@@ -56,8 +57,10 @@ class EliminarRecetaView(LoginRequiredMixin, View):
         # Añadimos mensaje de exito al usuario
         messages.success(
             request, f'Receta {recipe_to_remove.name} eliminada con éxito')
+        #Obtenemos la página donde nos encontramos actualmente
+        actual_page = request.POST.get('page')
 
-        return redirect('Recetas')
+        return redirect(f'/recetas/?page={actual_page}')
 
 
 # ----------------------------------------------------------------------------------------------------------- #
@@ -109,7 +112,7 @@ class VerRecetaDetail(LoginRequiredMixin, DetailView):
         return context
 
 
-class compartirReceta(LoginRequiredMixin, View):
+class CompartirReceta(LoginRequiredMixin, View):
     """
     Vista basada en clases para compartir una receta con todos los usuarios.
     Requiere que el usuario esté autenticado.
@@ -125,8 +128,13 @@ class compartirReceta(LoginRequiredMixin, View):
             u.recipe.add(share_recipe)
 
         messages.success(request, 'Receta compartida con éxito')
+        
+        #Obtenemos la página donde nos encontramos actualmente
+        actual_page = request.POST.get('page')
+
+        return redirect(f'/recetas/?page={actual_page}')
     
-        return redirect('Recetas')
+    
 
 
 # ----------------------------------------------------------------------------------------------------------- #
@@ -156,6 +164,35 @@ class CreateRecetaView(LoginRequiredMixin, CreateView):
         messages.success(self.request, 'Receta creada con éxito')
 
         return response
+
+# ----------------------------------------------------------------------------------------------------------- #
+# ----------------------------------------------------------------------------------------------------------- #
+
+class EliminarTodasDeleteView(LoginRequiredMixin, View):
+    
+    def post(self, request, *args, **kwargs):
+        
+        # Obtenemos al usuario actual
+        user_actual = UserWeekfoods.objects.get(user=self.request.user)
+        
+        #Eliminamos todas las recetas que tiene guardado en su usuario
+        user_actual.recipe.clear()
+        
+        #Además tambien debemos eliminar todas las recetas que pueda inlcuir su WeeklyMenu.
+        week_menu = WeeklyMenu.objects.filter(user_active = user_actual)
+        week_menu.delete()
+        
+            
+        
+        #Enviamos mensaje de éxito
+        messages.success(self.request, 'Se han eliminado todas las recetas con éxito')
+        
+        #Volvemos a la página recetas
+        return redirect('Recetas')
+
+
+
+
 
 
 # ----------------------------------------------------------------------------------------------------------- #
