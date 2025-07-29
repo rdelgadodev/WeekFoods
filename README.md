@@ -73,7 +73,7 @@ Para poner en marcha la aplicación web WeekFoods en tu entorno local, sigue est
 
 1.- Clona el repositorio:
 
-    git clone https://github.com/RaulPW/WeekFoods.git # Asegúrate de reemplazar 'tu-usuario'
+    git clone https://github.com/RaulPW/WeekFoods.git
     cd WeekFoods
 
 2.- Crea y activa un entorno virtual:
