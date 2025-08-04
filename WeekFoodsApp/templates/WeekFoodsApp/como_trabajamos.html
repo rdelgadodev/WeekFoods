@@ -3,11 +3,68 @@
 {% load static %}
 
 {% block content %}
-<h1 class="text-center mt-4">Un pequeño recorrido por nuestra web...</h1>
+<h1 class="text-center my-4">Nuestros servicios</h1>
 
-<div class="container py-5 bg-dark text-white contenedor mt-4">
+<div class="container">
 
-    <div id="carouselExampleDark" class="carousel carousel slide" data-bs-ride='True'>
+    <div class="row">
+            <div class="col-12">
+                <p class="section-subtitle lead fs-4">En Weekfoods, te ofrecemos una manera sencilla y eficiente de planificar tu alimentación semanal. Nuestro objetivo es que comer de forma equilibrada y ajustada a tu presupuesto sea una tarea fácil y rápida.</p>
+            </div>
+    </div>
+
+        
+        <!-- Fila de tarjetas responsivas -->
+        <div class="row g-4 justify-content-center my-4">
+
+            <!-- Tarjeta 1: Menú Personalizado -->
+            <div class="col-lg-3 col-md-6 col-12 d-flex">
+                <div class="card bg-dark text-white">
+                    <img src="{% static 'WeekfoodsApp/img/mp.png' %}" class="card-img-top" alt="Una imagen de un menú semanal personalizado">
+                    <div class="card-body">
+                        <h5 class="card-title fw-bold">Menú Personalizado</h5>
+                        <p class="card-text">Introduce tus preferencias de calorías y presupuesto, y nuestra herramienta generará automáticamente un menú semanal de 10 comidas.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tarjeta 2: Flexibilidad Total -->
+            <div class="col-lg-3 col-md-6 col-12 d-flex">
+                <div class="card bg-dark text-white">
+                    <img src="{% static 'WeekfoodsApp/img/ft.png' %}" class="card-img-top" alt="Una imagen que representa flexibilidad y edición">
+                    <div class="card-body">
+                        <h5 class="card-title fw-bold">Flexibilidad Total</h5>
+                        <p class="card-text">Cambia recetas, selecciona tus favoritas o elimina todo para empezar de nuevo. La decisión es siempre tuya.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tarjeta 3: Tus Recetas -->
+            <div class="col-lg-3 col-md-6 col-12 d-flex">
+                <div class="card bg-dark text-white">
+                    <img src="{% static 'WeekfoodsApp/img/tr.png' %}" class="card-img-top" alt="Una imagen de un libro de recetas">
+                    <div class="card-body">
+                        <h5 class="card-title fw-bold">Tus Recetas</h5>
+                        <p class="card-text">Guarda y organiza tus propias recetas. Nuestro sistema las utilizará para elaborar tus menús, garantizando que siempre disfrutes de tus platos preferidos.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tarjeta 4: Lista de la Compra -->
+            <div class="col-lg-3 col-md-6 col-12 d-flex">
+                <div class="card bg-dark text-white">
+                    <img src="{% static 'WeekfoodsApp/img/lc.png' %}" class="card-img-top" alt="Una imagen de una lista de la compra">
+                    <div class="card-body">
+                        <h5 class="card-title fw-bold">Lista de la Compra</h5>
+                        <p class="card-text">Con un solo clic, generaremos una lista de la compra detallada con todos los ingredientes que necesitas. ¡Planificar tu visita al supermercado nunca fue tan fácil!</p>
+                    </div>
+                </div>
+            </div>
+
+        </div> <!-- Fin de la fila de tarjetas -->
+
+
+    {% comment %} <div id="carouselExampleDark" class="carousel carousel slide" data-bs-ride='True'>
         <div class="carousel-indicators">
             <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="0" class="active"
                 aria-current="true" aria-label="Slide 1"></button>
@@ -64,7 +121,7 @@
             <span class="carousel-control-next-icon" aria-hidden="true"></span>
             <span class="visually-hidden">Next</span>
         </button>
-    </div>
+    </div> {% endcomment %}
 </div>
 
 {% endblock %}
